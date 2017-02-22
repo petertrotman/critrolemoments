@@ -30,17 +30,18 @@ export function momentElement(episode, moment) {
     </span>${moment.description}`;
   li.appendChild(text);
 
-  const addYtPlayer = () => {
+  let yt;
+  let addYtPlayer;
+  let removeYtPlayer;
+  addYtPlayer = () => {  // eslint-disable-line prefer-const
     const width = li.getBoundingClientRect().width;
-    const yt = ytElement(episode, moment, width);
-    li.appendChild(yt);
-
-    text.onclick = () => {
-      yt.remove();
-      text.onclick = () => addYtPlayer();
-    };
+    yt = li.appendChild(ytElement(episode, moment, width));
+    text.onclick = () => removeYtPlayer();
   };
-
+  removeYtPlayer = () => {
+    yt.remove();
+    text.onclick = () => addYtPlayer();
+  };
   text.onclick = () => addYtPlayer();
 
   li.search = (searchText) => {
@@ -49,6 +50,7 @@ export function momentElement(episode, moment) {
       return 1;
     } else {  // eslint-disable-line no-else-return
       li.classList.add(styles.searchHidden);
+      removeYtPlayer();
       return 0;
     }
   };
