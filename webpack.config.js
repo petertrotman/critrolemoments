@@ -6,11 +6,17 @@ module.exports = {
     filename: 'bundle.js',
     path: path.join(__dirname, 'dist'),
   },
-  rules: [
-    {
-      test: /\.js$/,
-      exclude: /node_modules/,
-      loader: 'babel-loader',
-    },
-  ],
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        loader: 'babel-loader',
+      },
+    ],
+  },
+  devServer: {
+    publicPath: '/dist/',
+    historyApiFallback: true,
+  },
 };
