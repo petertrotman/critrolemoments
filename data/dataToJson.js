@@ -1,4 +1,6 @@
 const fs = require('fs');
+const path = require('path');
+const parse = require('csv-parse/lib/sync');  // eslint-disable-line import/no-extraneous-dependencies
 
 function csvRowToRecord(csvRow, headers) {
   return csvRow.reduce((acc, cell, i) =>
@@ -6,7 +8,7 @@ function csvRowToRecord(csvRow, headers) {
 }
 
 function csvToRecords(csvData) {
-  const data = csvData.split('\n').map(row => row.split(','));
+  const data = parse(csvData);
   const headers = data[0];
   return data
     .slice(1)
@@ -20,8 +22,8 @@ const dataFiles = [
 ];
 
 for (const data of dataFiles) {  // eslint-disable-line no-restricted-syntax
-  const csvData = fs.readFileSync(data.inFile, { encoding: 'utf-8' });
+  const csvData = fs.readFileSync(path.join(__dirname, data.inFile), { encoding: 'utf-8' });
   const records = csvToRecords(csvData);
   const jsonData = JSON.stringify(records);
-  fs.writeFileSync(data.outFile, jsonData);
+  fs.writeFileSync(path.join(__dirname, data.outFile), jsonData);
 }
