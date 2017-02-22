@@ -3,7 +3,7 @@ export function parseTimestamp(ts) {
   const s = parseInt(split[0], 10);
   const m = parseInt(split[1] || 0, 10);
   const h = parseInt(split[2] || 0, 10);
-  if (isNaN(s) || isNaN(m) || isNaN(h)) throw new Error('Invalid timestamp');
+  if (isNaN(s) || isNaN(m) || isNaN(h)) throw new Error(`Invalid timestamp: ${ts}`);
   return { h, m, s };
 }
 

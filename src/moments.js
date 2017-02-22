@@ -39,7 +39,8 @@ export function momentElement(episode, moment) {
     text.onclick = () => removeYtPlayer();
   };
   removeYtPlayer = () => {
-    yt.remove();
+    if (yt) yt.remove();
+    yt = null;
     text.onclick = () => addYtPlayer();
   };
   text.onclick = () => addYtPlayer();
