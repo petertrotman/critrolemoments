@@ -15,5 +15,19 @@
   "bugs": {
     "url": "https://github.com/petertrotman/critrolemoments/issues"
   },
-  "homepage": "https://github.com/petertrotman/critrolemoments#readme"
+  "homepage": "https://github.com/petertrotman/critrolemoments#readme",
+  "dependencies": {
+    "babel": "^6.23.0",
+    "babel-preset-es2015": "^6.22.0",
+    "babel-preset-stage-2": "^6.22.0",
+    "jest": "^19.0.1",
+    "webpack": "^2.2.1",
+    "webpack-dev-server": "^2.4.1"
+  },
+  "devDependencies": {
+    "babel-eslint": "^7.1.1",
+    "eslint": "^3.16.0",
+    "eslint-config-airbnb-base": "^11.1.0",
+    "eslint-plugin-import": "^2.2.0"
+  }
 }
