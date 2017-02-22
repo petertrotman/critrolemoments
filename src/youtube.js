@@ -9,7 +9,7 @@ export function ytElement(episode, moment, containerWidth) {
     `?start=${(ts.h * 3600) + (ts.m * 60) + ts.s}` +
     '&autoplay=1';
 
-  const padding = 5;
+  const padding = 15;
   const width = containerWidth - (2 * padding);
 
   iframe.classList.add(styles.ytPlayer);

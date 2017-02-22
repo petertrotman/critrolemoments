@@ -1,5 +1,9 @@
+@import url('https://fonts.googleapis.com/css?family=Average|Cinzel+Decorative|Droid+Sans+Mono');
+
 html {
   background-color: #EEE;
+  font-family: 'Average', serif;
+  font-size: 16px;
 }
 
 body {
@@ -14,4 +18,8 @@ body {
   align-items: stretch;
   width: 100%;
   max-width: 800px;
+}
+
+h1, h2, h3, h4 {
+  font-family: 'Cinzel Decorative', cursive;
 }

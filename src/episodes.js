@@ -18,11 +18,38 @@ export function episodeElement(episode) {
   div.classList.add(styles.episode);
 
   const title = document.createElement('h3');
-  title.innerHTML = `${episode.episode}: ${episode.title}`;
+  const titleText = `Episode ${episode.episode}: ${episode.title}`;
+  title.innerHTML = titleText;
   div.appendChild(title);
 
   const moments = momentsElement(episode);
   div.appendChild(moments);
+
+  let hideMoments;
+  let showMoments;
+  hideMoments = () => {  // eslint-disable-line prefer-const
+    moments.classList.add(styles.hidden);
+    title.onclick = () => showMoments();
+  };
+  showMoments = () => {
+    moments.classList.remove(styles.hidden);
+    title.onclick = () => hideMoments();
+  };
+  title.onclick = () => hideMoments();
+
+  div.expand = () => showMoments();
+  div.collapse = () => hideMoments();
+
+  div.search = (searchText) => {
+    if (titleText.toLowerCase().includes(searchText.toLowerCase())) {
+      moments.search('');
+      div.classList.remove(styles.searchHidden);
+    } else if (moments.search(searchText) > 0) {
+      div.classList.remove(styles.searchHidden);
+    } else {
+      div.classList.add(styles.searchHidden);
+    }
+  };
 
   return div;
 }
@@ -31,10 +58,35 @@ export function episodesElement() {
   const div = document.createElement('div');
   div.classList.add(styles.episodes);
 
+  const episodeDivs = [];
+
+  const controls = document.createElement('div');
+  controls.classList.add(styles.episodesControls);
+  div.appendChild(controls);
+
+  const search = document.createElement('input');
+  search.classList.add(styles.search);
+  search.setAttribute('type', 'text');
+  search.setAttribute('placeholder', 'Search...');
+  search.oninput = e => episodeDivs.forEach(d =>
+    d.search(e.target.value));
+  controls.appendChild(search);
+
+  const expand = document.createElement('span');
+  const collapse = document.createElement('span');
+  expand.classList.add(styles.episodesControl);
+  collapse.classList.add(styles.episodesControl);
+  expand.innerHTML = '[+] Expand all';
+  collapse.innerHTML = '[-] Collapse all';
+  expand.onclick = () => episodeDivs.forEach(d => d.expand());
+  collapse.onclick = () => episodeDivs.forEach(d => d.collapse());
+  controls.appendChild(expand);
+  controls.appendChild(collapse);
+
   Object.values(episodes)
     .filter(e => e.category === 'Critical Role')
     .sort(episodeSortFn)
-    .forEach(e => div.appendChild(episodeElement(e)));
+    .forEach(e => episodeDivs.push(div.appendChild(episodeElement(e))));
 
   return div;
 }

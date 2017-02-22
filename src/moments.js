@@ -21,20 +21,38 @@ function momentSortFn(a, b) {
 export function momentElement(episode, moment) {
   const li = document.createElement('li');
   li.classList.add(styles.moment);
-  li.innerHTML = `[${padTimestamp(moment.timestamp)}] ${moment.description}`;
+
+  const text = document.createElement('span');
+  text.classList.add(styles.momentText);
+  text.innerHTML =
+    `<span class="${styles.momentTimestamp}">
+      [${padTimestamp(moment.timestamp)}]
+    </span>${moment.description}`;
+  li.appendChild(text);
 
   const addYtPlayer = () => {
     const width = li.getBoundingClientRect().width;
     const yt = ytElement(episode, moment, width);
     li.appendChild(yt);
 
-    li.onclick = () => {
+    text.onclick = () => {
       yt.remove();
-      li.onclick = () => addYtPlayer();
+      text.onclick = () => addYtPlayer();
     };
   };
 
-  li.onclick = () => addYtPlayer();
+  text.onclick = () => addYtPlayer();
+
+  li.search = (searchText) => {
+    if (moment.description.toLowerCase().includes(searchText.toLowerCase())) {
+      li.classList.remove(styles.searchHidden);
+      return 1;
+    } else {  // eslint-disable-line no-else-return
+      li.classList.add(styles.searchHidden);
+      return 0;
+    }
+  };
+
   return li;
 }
 
@@ -43,10 +61,21 @@ export function momentsElement(episode) {
   const ul = document.createElement('ul');
   ul.classList.add(styles.moments);
 
+  const momentItems = [];
+
   Object.values(moments)
     .filter(m => m.episodeId === episode.id)
     .sort(momentSortFn)
-    .forEach(m => ul.appendChild(momentElement(episode, m)));
+    .forEach(m => momentItems.push(ul.appendChild(momentElement(episode, m))));
+
+  ul.search = (searchText) => {
+    let nMoments = 0;
+    momentItems.forEach((m) => {
+      nMoments += m.search(searchText);
+      return null;
+    });
+    return nMoments;
+  };
 
   return ul;
 }

@@ -1,5 +1,29 @@
+.episodes {
+  display: flex;
+  flex-direction: column;
+}
+
+.episodesControls {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.episodesControl {
+  margin-left: 0.5em;
+  margin-right: 0.5em;
+  cursor: pointer;
+}
+
 .episode {
   color: steelblue;
+}
+
+.episode h3 {
+  cursor: pointer;
+  display: inline-block;
+  margin-top: 0.1em;
+  margin-bottom: 0.1em;
 }
 
 .moments {
@@ -8,7 +32,30 @@
 }
 
 .moment {
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
+  margin-top: 0.05em;
+  margin-bottom: 0.05em;
 }
+
+.momentText {
+  cursor: pointer;
+  display: inline;
+}
+
+.momentTimestamp {
+  font-family: 'Droid Sans Mono', monospace;
+  font-size: 0.9em;
+  margin: 0 15px;
+}
+
+.hidden {
+  display: none;
+}
+
+.searchHidden {
+  display: none;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
