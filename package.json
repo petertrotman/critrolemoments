@@ -1,0 +1,19 @@
+{
+  "name": "critrolemoments",
+  "version": "1.0.0",
+  "description": "List of the best moments from Critical Role with embedded videos",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/petertrotman/critrolemoments.git"
+  },
+  "author": "Peter Trotman",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/petertrotman/critrolemoments/issues"
+  },
+  "homepage": "https://github.com/petertrotman/critrolemoments#readme"
+}
