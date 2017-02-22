@@ -19,6 +19,7 @@ function csvToRecords(csvData) {
 
 const dataFiles = [
   { inFile: 'episodes.csv', outFile: 'episodes.json' },
+  { inFile: 'moments.csv', outFile: 'moments.json' },
 ];
 
 for (const data of dataFiles) {  // eslint-disable-line no-restricted-syntax
