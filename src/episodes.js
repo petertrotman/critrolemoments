@@ -28,11 +28,11 @@ export function episodeElement(episode) {
   let hideMoments;
   let showMoments;
   hideMoments = () => {  // eslint-disable-line prefer-const
-    moments.classList.add(styles.hidden);
+    moments.hide();
     title.onclick = () => showMoments();
   };
   showMoments = () => {
-    moments.classList.remove(styles.hidden);
+    moments.show();
     title.onclick = () => hideMoments();
   };
   title.onclick = () => hideMoments();

@@ -56,6 +56,9 @@ export function momentElement(episode, moment) {
     }
   };
 
+  li.show = () => li.classList.remove(styles.hidden);
+  li.hide = () => { removeYtPlayer(); li.classList.add(styles.hidden); };
+
   return li;
 }
 
@@ -78,6 +81,15 @@ export function momentsElement(episode) {
       return null;
     });
     return nMoments;
+  };
+
+  ul.hide = () => {
+    momentItems.forEach(m => m.hide());
+    ul.classList.add(styles.hidden);
+  };
+  ul.show = () => {
+    momentItems.forEach(m => m.show());
+    ul.classList.remove(styles.hidden);
   };
 
   return ul;
