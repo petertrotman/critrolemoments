@@ -4,6 +4,8 @@
   "description": "List of the best moments from Critical Role with embedded videos",
   "main": "index.js",
   "scripts": {
+    "start": "webpack-dev-server",
+    "build": "webpack -p",
     "test": "jest"
   },
   "repository": {

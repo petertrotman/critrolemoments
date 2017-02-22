@@ -7,7 +7,7 @@ function csvRowToRecord(csvRow, headers) {
 
 function csvToRecords(csvData) {
   const data = csvData.split('\n').map(row => row.split(','));
-  const headers = data[0]
+  const headers = data[0];
   return data
     .slice(1)
     .filter(row => row.length === headers.length)
@@ -19,12 +19,9 @@ const dataFiles = [
   { inFile: 'episodes.csv', outFile: 'episodes.json' },
 ];
 
-for (const data of dataFiles) {
+for (const data of dataFiles) {  // eslint-disable-line no-restricted-syntax
   const csvData = fs.readFileSync(data.inFile, { encoding: 'utf-8' });
   const records = csvToRecords(csvData);
   const jsonData = JSON.stringify(records);
   fs.writeFileSync(data.outFile, jsonData);
 }
-
-
-
