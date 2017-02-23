@@ -7,7 +7,7 @@ export function ytElement(episode, moment, containerWidth) {
   const src =
     `https://www.youtube.com/embed/${episode.videoId}` +
     `?start=${(ts.h * 3600) + (ts.m * 60) + ts.s}` +
-    '&autoplay=1';
+    '&origin=http://critrolemoments.com&autoplay=1';
 
   const padding = 15;
   const width = containerWidth - (2 * padding);
