@@ -65,6 +65,7 @@ footer {
 }
 
 input[type="text"] {
+  font-family: 'Average', serif;
   font-size: 20px;
 }
 

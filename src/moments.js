@@ -29,7 +29,7 @@ export function momentElement(episode, moment) {
   momentTimestamp.classList.add(styles.momentTimestamp);
   momentDescription.classList.add(styles.momentDescription);
   momentTimestamp.innerHTML = `[${padTimestamp(moment.timestamp)}]`;
-  momentDescription.innerHTML = moment.description;
+  momentDescription.innerHTML = `${moment.tags ? `[${moment.tags}]` : ''} ${moment.description}`;
   text.appendChild(momentTimestamp);
   text.appendChild(momentDescription);
 
