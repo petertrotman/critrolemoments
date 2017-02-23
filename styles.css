@@ -45,7 +45,13 @@ footer {
   justify-content: space-between;
 }
 
-@media only screen and (max-device-width: 860px) {
+@media only screen and (max-device-width: 420px) {
+  html {
+    font-size: 32px;
+  }
+}
+
+@media only screen and (min-device-width: 420px) and (max-device-width: 860px) {
   html {
     font-size: 26px;
   }
