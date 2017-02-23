@@ -29,14 +29,11 @@ export function momentElement(episode, moment) {
   momentTimestamp.classList.add(styles.momentTimestamp);
   momentDescription.classList.add(styles.momentDescription);
   momentTimestamp.innerHTML = `[${padTimestamp(moment.timestamp)}]`;
-  momentDescription.innerHTML = `${moment.tags ? `[${moment.tags}]` : ''} ${moment.description}`;
+  const momentDescriptionText = `${moment.tags ? `[${moment.tags}] ` : ''}${moment.description}`;
+  momentDescription.innerHTML = momentDescriptionText;
   text.appendChild(momentTimestamp);
   text.appendChild(momentDescription);
 
-  // text.innerHTML =
-  //   `<span class="${styles.momentTimestamp}">
-  //     [${padTimestamp(moment.timestamp)}]
-  //   </span>${moment.description}`;
   li.appendChild(text);
 
   let yt;
@@ -55,7 +52,7 @@ export function momentElement(episode, moment) {
   text.onclick = () => addYtPlayer();
 
   li.search = (searchText) => {
-    if (moment.description.toLowerCase().includes(searchText.toLowerCase())) {
+    if (momentDescriptionText.toLowerCase().includes(searchText.toLowerCase())) {
       li.classList.remove(styles.searchHidden);
       return 1;
     } else {  // eslint-disable-line no-else-return
