@@ -40,8 +40,26 @@ body {
   justify-content: center;
   align-items: center;
   width: 100%;
-  min-height: 10em;
+  min-height: 8em;
   margin: 0;
+}
+
+.help-text {
+  text-align: left;
+  font-size: 0.8em;
+  color: #F5F5F5;
+  background: #f50057;
+  padding: 0 0.5em;
+  padding-bottom: 0.5em;
+}
+
+.help-text p {
+  margin: 0;
+}
+
+.help-text a {
+  color: #F5F5F5;
+  text-decoration: none;
 }
 
 h1, h2, h3, h4 {

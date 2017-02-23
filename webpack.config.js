@@ -21,5 +21,6 @@ module.exports = {
   },
   devServer: {
     publicPath: '/dist/',
+    watchContentBase: true,
   },
 };
