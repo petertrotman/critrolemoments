@@ -8,9 +8,8 @@
   flex-direction: row;
   justify-content: space-around;
   margin-bottom: 0.5em;
-  height: 1.5em;
-  font-size: 1.2em;
-  padding: 1em 0;
+  min-height: 1.5em;
+  padding: 1em 0.5em;
   /* background: #f0d1dc; */
   background: #ffe5e5;
   border-radius: 0 0 0.3em 0.3em;
@@ -23,6 +22,7 @@
 .episodesControl {
   padding: 0.2em;
   cursor: pointer;
+  align: center;
 }
 
 .episodesControl:hover {
@@ -36,7 +36,7 @@
 .episode h3 {
   cursor: pointer;
   display: inline-block;
-  margin: 0;
+  margin: 0.1em;
   font-size: 1.6em;
   padding: 0.1em;
 }
@@ -52,6 +52,7 @@
 .moments {
   list-style: none;
   padding: 0;
+  margin: 0.1em 0;
 }
 
 .moment:not(:last-child) {
