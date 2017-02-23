@@ -3,8 +3,6 @@
 html {
   background-color: #EEE;
   font-family: 'Average', serif;
-  font-size: 16px;
-
 }
 
 body {
@@ -34,4 +32,16 @@ footer {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+}
+
+@media only screen and (max-device-width: 860px) {
+  html {
+    font-size: 24px;
+  }
+}
+
+@media only screen and (min-device-width: 860px) {
+  html {
+    font-size: 18px;
+  }
 }
