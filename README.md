@@ -1,5 +1,7 @@
 # Critical Role Moments
 
+http://critrolemoments.com
+
 A website to provide a convenient place to find all of the best moments from Critical Role with embedded videos
 
 ## Contributing
