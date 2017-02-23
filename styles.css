@@ -4,6 +4,7 @@ html {
   background-color: #EEE;
   font-family: 'Average', serif;
   font-size: 16px;
+
 }
 
 body {
@@ -22,4 +23,9 @@ body {
 
 h1, h2, h3, h4 {
   font-family: 'Cinzel Decorative', cursive;
+}
+
+h1 {
+  font-size: 3em;
+  text-align: center;
 }

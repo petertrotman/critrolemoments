@@ -7,6 +7,9 @@
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
+  margin-bottom: 1.5em;
+  height: 1.5em;
+  font-size: 1.5em;
 }
 
 .episodesControl {
@@ -24,6 +27,7 @@
   display: inline-block;
   margin-top: 0.1em;
   margin-bottom: 0.1em;
+  font-size: 2em;
 }
 
 .moments {
