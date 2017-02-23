@@ -74,13 +74,15 @@ export function momentsElement(episode) {
     .sort(momentSortFn)
     .forEach(m => momentItems.push(ul.appendChild(momentElement(episode, m))));
 
+  ul.nMoments = momentItems.length;
+
   ul.search = (searchText) => {
     let nMoments = 0;
     momentItems.forEach((m) => {
       nMoments += m.search(searchText);
       return null;
     });
-    return nMoments;
+    ul.nMoments = nMoments;
   };
 
   ul.hide = () => {

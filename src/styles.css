@@ -30,6 +30,10 @@
   font-size: 2em;
 }
 
+.momentsIndicator {
+  margin-left: 0.5em;
+}
+
 .moments {
   list-style: none;
   padding: 0;

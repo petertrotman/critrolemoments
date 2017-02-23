@@ -18,21 +18,30 @@ export function episodeElement(episode) {
   div.classList.add(styles.episode);
 
   const title = document.createElement('h3');
-  const titleText = `Episode ${episode.episode}: ${episode.title}`;
-  title.innerHTML = titleText;
+  const titleText = document.createElement('span');
+  const momentsIndicator = document.createElement('span');
+  title.appendChild(titleText);
+  title.appendChild(momentsIndicator);
   div.appendChild(title);
 
   const moments = momentsElement(episode);
   div.appendChild(moments);
 
+  titleText.innerHTML = `Episode ${episode.episode}: ${episode.title}`;
+  momentsIndicator.innerHTML = `(${moments.nMoments})`;
+  momentsIndicator.classList.add(styles.momentsIndicator);
+  momentsIndicator.classList.add(styles.hidden);
+
   let hideMoments;
   let showMoments;
   hideMoments = () => {  // eslint-disable-line prefer-const
     moments.hide();
+    momentsIndicator.classList.remove(styles.hidden);
     title.onclick = () => showMoments();
   };
   showMoments = () => {
     moments.show();
+    momentsIndicator.classList.add(styles.hidden);
     title.onclick = () => hideMoments();
   };
   title.onclick = () => hideMoments();
@@ -41,14 +50,18 @@ export function episodeElement(episode) {
   div.collapse = () => hideMoments();
 
   div.search = (searchText) => {
-    if (titleText.toLowerCase().includes(searchText.toLowerCase())) {
+    if (titleText.innerHTML.toLowerCase().includes(searchText.toLowerCase())) {
       moments.search('');
       div.classList.remove(styles.searchHidden);
-    } else if (moments.search(searchText) > 0) {
-      div.classList.remove(styles.searchHidden);
     } else {
-      div.classList.add(styles.searchHidden);
+      moments.search(searchText);
+      if (moments.nMoments > 0) {
+        div.classList.remove(styles.searchHidden);
+      } else {
+        div.classList.add(styles.searchHidden);
+      }
     }
+    momentsIndicator.innerHTML = `(${moments.nMoments})`;
   };
 
   return div;
