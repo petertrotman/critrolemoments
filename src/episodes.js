@@ -93,8 +93,12 @@ export function episodesElement() {
   collapse.innerHTML = '[-] Collapse all';
   expand.onclick = () => episodeDivs.forEach(d => d.expand());
   collapse.onclick = () => episodeDivs.forEach(d => d.collapse());
-  controls.appendChild(expand);
-  controls.appendChild(collapse);
+
+  const expandCollapse = document.createElement('div');
+  expandCollapse.classList.add(styles.expandCollapseControls);
+  expandCollapse.appendChild(expand);
+  expandCollapse.appendChild(collapse);
+  controls.appendChild(expandCollapse);
 
   Object.values(episodes)
     .filter(e => e.category === 'Critical Role')
