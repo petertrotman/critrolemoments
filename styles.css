@@ -29,3 +29,9 @@ h1 {
   font-size: 3em;
   text-align: center;
 }
+
+footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
