@@ -24,10 +24,19 @@ export function momentElement(episode, moment) {
 
   const text = document.createElement('span');
   text.classList.add(styles.momentText);
-  text.innerHTML =
-    `<span class="${styles.momentTimestamp}">
-      [${padTimestamp(moment.timestamp)}]
-    </span>${moment.description}`;
+  const momentTimestamp = document.createElement('span');
+  const momentDescription = document.createElement('span');
+  momentTimestamp.classList.add(styles.momentTimestamp);
+  momentDescription.classList.add(styles.momentDescription);
+  momentTimestamp.innerHTML = `[${padTimestamp(moment.timestamp)}]`;
+  momentDescription.innerHTML = moment.description;
+  text.appendChild(momentTimestamp);
+  text.appendChild(momentDescription);
+
+  // text.innerHTML =
+  //   `<span class="${styles.momentTimestamp}">
+  //     [${padTimestamp(moment.timestamp)}]
+  //   </span>${moment.description}`;
   li.appendChild(text);
 
   let yt;

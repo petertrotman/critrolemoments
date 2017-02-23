@@ -7,31 +7,42 @@
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-  margin-bottom: 1.5em;
+  margin-bottom: 0.5em;
   height: 1.5em;
   font-size: 1.2em;
+  padding: 1em 0;
+  /* background: #f0d1dc; */
+  background: #ffe5e5;
+  border-radius: 0 0 0.3em 0.3em;
 }
 
 .episodesControls input {
-  width: 15em;
+  width: 40%;
 }
 
 .episodesControl {
-  margin-left: 0.5em;
-  margin-right: 0.5em;
+  padding: 0.2em;
   cursor: pointer;
 }
 
+.episodesControl:hover {
+  background: #fff5f5;
+}
+
 .episode {
-  color: steelblue;
+  color: #444;
 }
 
 .episode h3 {
   cursor: pointer;
   display: inline-block;
-  margin-top: 0.1em;
-  margin-bottom: 0.1em;
+  margin: 0;
   font-size: 1.6em;
+  padding: 0.1em;
+}
+
+.episode h3:hover {
+  background: #fff5f5;
 }
 
 .momentsIndicator {
@@ -43,14 +54,19 @@
   padding: 0;
 }
 
-.moment {
-  margin-top: 0.05em;
-  margin-bottom: 0.05em;
+.moment:not(:last-child) {
+  margin-bottom: 0.3em;
 }
 
 .momentText {
   cursor: pointer;
-  display: inline;
+  display: inline-flex;
+  flex-direction: row;
+  padding: 0.1em;
+}
+
+.momentText:hover {
+  background: #fff5f5;
 }
 
 .momentTimestamp {
