@@ -1,9 +1,9 @@
 id,episodeId,timestamp,tags,description,source
 1,i-p9lWIhcLQ,01:12:34,,Scanlan snores during an argument,
 2,i-p9lWIhcLQ,00:46:18,,Sam doesn’t agree with Tiberius’ approach,
-3,JTie0S_5gjE,00:33:45,,"""To the other guy, Matt?""",
-4,JTie0S_5gjE,00:49:34,Funny,"Tiberius, silenced",
-5,JTie0S_5gjE,00:52:52,Funny,Keyleth's Scottish accent,
+3,JTie0S_5gjE,00:33:45,OOC,"""To the other guy, Matt?""",
+4,JTie0S_5gjE,00:49:34,,"Tiberius, silenced",
+5,JTie0S_5gjE,00:52:52,,Keyleth's Scottish accent,
 6,JTie0S_5gjE,00:59:03,,The House of Vulva,
 7,JTie0S_5gjE,01:03:16,,Dragon parts,
 8,JTie0S_5gjE,01:05:33,,Professor Grog,
@@ -11,10 +11,10 @@ id,episodeId,timestamp,tags,description,source
 10,kGxiZNbjwGI,01:42:40,,"Laura gets to the episode a bit late, just in time for an elaborate and extremely well-thought-out plan to go into play.",eponymous-rose
 11,QDdT5UqGaDw,01:23:55,,Grog mopes after a rough fight.,eponymous-rose
 12,60sUkTh6xBc,01:51:40,,Matt gets a subtle revenge after Percy absolutely wrecks shop with multiple natural twenties… while wearing buttflap pajamas.,eponymous-rose
-13,IW6GgFQg3kk,03:22:57,Drama,Mary Elizabeth McGlynn has a helluva moment as Zahra during a particularly nasty fight in her first-ever D&D game.,eponymous-rose
+13,IW6GgFQg3kk,03:22:57,,Mary Elizabeth McGlynn has a helluva moment as Zahra during a particularly nasty fight in her first-ever D&D game.,eponymous-rose
 14,1GY3HTZE5R0,00:40:03,,Vex is Not Pleased.,eponymous-rose
-15,FM6L4tuyXq0,02:08:27,"Funny, Improv",Matt invents Victor the blackpowder merchant on the spot.,eponymous-rose
-16,kre27f30IVs,00:28:47,Drama,The party refuses to let Percy face the Briarwoods alone.,eponymous-rose
+15,FM6L4tuyXq0,02:08:27,,Matt invents Victor the blackpowder merchant on the spot.,eponymous-rose
+16,kre27f30IVs,00:28:47,,The party refuses to let Percy face the Briarwoods alone.,eponymous-rose
 17,kre27f30IVs,02:34:25,,Vax gets revenge on Grog for tripping him several months ago.,eponymous-rose
 18,yrrB_q-V8G0,00:14:05,,Vax alone.,eponymous-rose
 19,yrrB_q-V8G0,00:58:49,,Vex charges in with the most dramatic dice rolls possible.,eponymous-rose
@@ -25,15 +25,15 @@ id,episodeId,timestamp,tags,description,source
 24,2AqLu-u-GcY,04:14:00,,To quote an earlier post: the walls are people and magic is dead. Everything is fine.,eponymous-rose
 25,WFbmY79Qdfc,00:05:23,,Scanlan casts a spell on Percy.,eponymous-rose
 26,EikRMYRf5-Y,00:49:35,,Percy gives Grog a sentient sword. What could go wrong?,eponymous-rose
-27,EikRMYRf5-Y,01:00:25,Funny,"Keyleth, Scanlan, and Percy take in a magic show during the festival. They’re… still a little frazzled.",eponymous-rose
-28,wCj4kCq1Z9Y,01:21:10,Drama,Scanlan’s flirtatious relationship with Kaylie takes a dramatic turn.,eponymous-rose
+27,EikRMYRf5-Y,01:00:25,,"Keyleth, Scanlan, and Percy take in a magic show during the festival. They’re… still a little frazzled.",eponymous-rose
+28,wCj4kCq1Z9Y,01:21:10,,Scanlan’s flirtatious relationship with Kaylie takes a dramatic turn.,eponymous-rose
 29,9EToAf4nhDw,03:23:50,,Everything changes.,eponymous-rose
 30,0W_by9hT6VQ,01:59:07,,The party starts to fracture under the strain.,eponymous-rose
 31,L8xSI6QoT-A,02:28:18,,Finding Gilmore.,eponymous-rose
 32,qWoloOxtvc0,02:31:00,,Vex’s limerick for Scanlan.,eponymous-rose
-33,KHsA0R_GovU,00:31:58,Funny,Matt is DMing a room full of twelve-year-olds.,eponymous-rose
+33,KHsA0R_GovU,00:31:58,,Matt is DMing a room full of twelve-year-olds.,eponymous-rose
 34,KHsA0R_GovU,04:23:30,,Half the party’s character arcs turn on a single roll of the dice…,eponymous-rose
-35,0uazTyTrk-8,02:30:06,Drama,"“I like you people, okay?”",eponymous-rose
+35,0uazTyTrk-8,02:30:06,Realtalk,"“I like you people, okay?”",eponymous-rose
 36,QqU5pqKoH2c,00:35:00,,Vex seeks help with a magical artifact.,eponymous-rose
 37,QqU5pqKoH2c,00:53:34,,Vax and Grog slip into nightmares.,eponymous-rose
 38,1uMH-hFJz0Q,01:40:00,,Vex does some flying target practice over breakfast. Things escalate.,eponymous-rose
@@ -61,16 +61,16 @@ id,episodeId,timestamp,tags,description,source
 60,-I_tnzBKSWk,02:24:57,,“I sing at it.”,eponymous-rose
 61,qn8tLbXWAtc,02:57:20,,Vex and Percy talk about forgiveness.,eponymous-rose
 62,2U21dJrY6ZI,03:27:00,,Cenokir introduces himself. Things get a little weird.,eponymous-rose
-63,Qz-twLRAE_A,02:56:00,"Funny, Aww",Pike teaches Grog to read.,eponymous-rose
+63,Qz-twLRAE_A,02:56:00,Aww,Pike teaches Grog to read.,eponymous-rose
 64,L4Sb53wvbKI,02:38:15,,“I’m so amazing!”,eponymous-rose
 65,tEnHX2XiGaQ,01:16:10,,Kashaw the strategist.,eponymous-rose
 66,um3mkvNmDPY,01:07:30,,Grog finds a famous (infamous) D&D magical item.,eponymous-rose
-67,N7DuwqJtCGI,01:14:38,Funny,Cure Whatever,
+67,N7DuwqJtCGI,01:14:38,,Cure Whatever,
 68,N7DuwqJtCGI,01:41:51,,Sam's having a great time,
-69,N7DuwqJtCGI,02:00:21,,The most intense scene in Critical Role history begins,
+69,N7DuwqJtCGI,02:00:21,Intense,The most intense scene in Critical Role history begins,
 70,N7DuwqJtCGI,02:57:18,,A new character's description,
-71,N7DuwqJtCGI,02:58:20,,Everyone's mind is blown﻿,
-72,N7DuwqJtCGI,03:04:28,"Funny, Reaction","“You, little elf girl, what’s your name?”",
+71,N7DuwqJtCGI,02:58:20,Reaction,Everyone's mind is blown﻿,
+72,N7DuwqJtCGI,03:04:28,Reaction,"“You, little elf girl, what’s your name?”",
 73,N7DuwqJtCGI,03:14:50,,Grog tries not to be impressed,
 74,THyXWq5iS0k,03:19:51,HDYWTDT,Vax gets the killing blow on Thordak.,/u/Ta2d_Kate
 75,THyXWq5iS0k,03:22:56,,Vax and Vex share a twinsie moment after he kills the dragon that murdered their mother.,/u/Ta2d_Kate
