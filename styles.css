@@ -61,6 +61,14 @@ body {
   color: #F5F5F5;
 }
 
+#submit-moment {
+  cursor: pointer;
+}
+
+#submit-moment:hover {
+  text-decoration: underline;
+}
+
 h1, h2, h3, h4 {
   font-family: 'Cinzel Decorative', cursive;
 }
@@ -81,7 +89,7 @@ footer {
   border-radius: 0.3em 0.3em 0 0;
 }
 
-input[type="text"] {
+input[type="text"], textarea {
   font-family: 'Average', serif;
   font-size: 1em;
 }
