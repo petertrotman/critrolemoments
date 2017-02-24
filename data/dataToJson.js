@@ -10,11 +10,14 @@ function csvRowToRecord(csvRow, headers) {
 function csvToRecords(csvData) {
   const data = parse(csvData);
   const headers = data[0];
+  const idIndex = headers.findIndex(h => h === 'id');
   return data
     .slice(1)
     .filter(row => row.length === headers.length)
-    .reduce((acc, row) =>
-      Object.assign(acc, { [row[0]]: csvRowToRecord(row, headers) }), {});
+    .reduce((acc, row, i) =>
+      Object.assign(acc, {
+        [idIndex !== -1 ? row[idIndex] : i]: csvRowToRecord(row, headers),
+      }), {});
 }
 
 const dataFiles = [
