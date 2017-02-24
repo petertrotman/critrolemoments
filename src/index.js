@@ -16,20 +16,34 @@ function initFirebase() {
   firebase.initializeApp(config);
 }
 
+function currentElement() {
+  switch (window.location.hash) {
+    case '':
+      return episodesElement();
+    case '#/submit':
+      return submitElement();
+    default:
+      return episodesElement();
+  }
+}
+
 function main() {
   const root = document.getElementById('root');
   root.innerHTML = '';
 
-  const episodes = episodesElement();
-  root.appendChild(episodes);
-
-  const navElement = document.getElementById('submit-moment');
-  navElement.onclick = () => {
-    navElement.onclick = null;
-    const submit = submitElement();
-    episodes.remove();
-    root.appendChild(submit);
+  const navigate = () => {
+    root.childNodes.forEach(c => c.remove());
+    root.appendChild(currentElement());
   };
+
+  navigate();
+  window.onpopstate = () => navigate();
+
+  // const navElement = document.getElementById('submit-moment');
+  // navElement.onclick = () => {
+  //   window.history.pushState({}, '', '/#/submit');
+  //   navigate();
+  // };
 
   initFirebase();
 }

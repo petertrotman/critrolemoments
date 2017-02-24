@@ -16,7 +16,7 @@ export function submitElement() {
   div.appendChild(header);
 
   const subHeader = document.createElement('div');
-  subHeader.innerHTML = '<p>I know this looks super basic but it works for now.</p><p>To return to the episodes, refresh the page! (Top UX dev here)</p>';
+  subHeader.innerHTML = '<p>I know this looks super basic but it works for now.</p>';
   div.appendChild(subHeader);
 
   const form = document.createElement('form');
@@ -113,11 +113,9 @@ export function submitElement() {
         source: credit.value,
       }).then(() => {
         success.innerHTML =
-          '<p>' +
-          'Thank you! Your moment has been recorded and we will review and include it in the next few days :-)' +
-          '</p><p>' +
-          'To get back to the episodes, refresh the page now or wait a couple of seconds and we\'ll do it for you.' +
-          '</p>';
+          `<p>
+            Thank you! Your moment has been recorded and we will review and include it in the next few days :-)
+          </p>`;
 
         setTimeout(() => window.location.reload(), 7000);
       });
@@ -144,6 +142,11 @@ export function submitElement() {
   form.appendChild(success);
   form.appendChild(submit);
 
+  const navigate = document.createElement('a');
+  navigate.setAttribute('href', '/#');
+  navigate.innerHTML = '< Back to the Moments';
+
   div.appendChild(form);
+  div.appendChild(navigate);
   return div;
 }

@@ -111,6 +111,11 @@
   padding: 0 1em;
 }
 
+.submit a {
+  align-self: flex-start;
+  margin-top: 1em;
+}
+
 .submitForm {
   text-align: left;
   display: flex;
