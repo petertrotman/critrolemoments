@@ -108,14 +108,16 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
+  padding: 0 1em;
 }
 
 .submitForm {
   text-align: left;
   display: flex;
+  flex-grow: 1;
   flex-direction: column;
   align-items: stretch;
-  width: 60%;
+  max-width: 420px;
 }
 
 .submitForm * {
