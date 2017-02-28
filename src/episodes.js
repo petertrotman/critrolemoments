@@ -2,6 +2,7 @@ import episodes from '../data/episodes.json';
 import styles from './styles.css';
 
 import { momentsElement } from './moments';
+import { createElement } from './util';
 
 function episodeSortFn(a, b) {
   if (a.episode === b.episode) return 0;
@@ -14,23 +15,16 @@ function episodeSortFn(a, b) {
 }
 
 export function episodeElement(episode) {
-  const div = document.createElement('div');
-  div.classList.add(styles.episode);
-
-  const title = document.createElement('h3');
-  const titleText = document.createElement('span');
-  const momentsIndicator = document.createElement('span');
-  title.appendChild(titleText);
-  title.appendChild(momentsIndicator);
-  div.appendChild(title);
-
   const moments = momentsElement(episode);
-  div.appendChild(moments);
 
-  titleText.innerHTML = `Episode ${episode.episode}: ${episode.title}`;
-  momentsIndicator.innerHTML = `(${moments.nMoments})`;
-  momentsIndicator.classList.add(styles.momentsIndicator);
-  momentsIndicator.classList.add(styles.hidden);
+  const titleText = createElement('span', {}, `Episode ${episode.episode}: ${episode.title}`);
+  const momentsIndicator = createElement(
+    'span',
+    { classList: [styles.momentsIndicator, styles.hidden] },
+    `(${moments.nMoments})`,
+  );
+  const title = createElement('h3', {}, [titleText, momentsIndicator]);
+  const div = createElement('div', { classList: [styles.episode] }, [title, moments]);
 
   let hideMoments;
   let showMoments;
@@ -68,42 +62,28 @@ export function episodeElement(episode) {
 }
 
 export function episodesElement() {
-  const div = document.createElement('div');
-  div.classList.add(styles.episodes);
+  const episodeDivs = Object.values(episodes)
+    .filter(e => e.category === 'Critical Role')
+    .sort(episodeSortFn)
+    .map(e => episodeElement(e));
 
-  const episodeDivs = [];
-
-  const controls = document.createElement('div');
-  controls.classList.add(styles.episodesControls);
-  div.appendChild(controls);
-
-  const search = document.createElement('input');
-  search.classList.add(styles.search);
-  search.setAttribute('type', 'text');
-  search.setAttribute('placeholder', 'Search...');
+  const search = createElement('input', {
+    classList: [styles.search],
+    type: 'text',
+    placeholder: 'Search...',
+  });
   search.oninput = e => episodeDivs.forEach(d =>
     d.search(e.target.value));
-  controls.appendChild(search);
 
-  const expand = document.createElement('span');
-  const collapse = document.createElement('span');
-  expand.classList.add(styles.episodesControl);
-  collapse.classList.add(styles.episodesControl);
-  expand.innerHTML = '[+] Expand all';
-  collapse.innerHTML = '[-] Collapse all';
+  const expand = createElement('span', { classList: [styles.episodesControl] }, '[+] Expand all');
+  const collapse = createElement('span', { classList: [styles.episodesControl] }, '[-] Collapse all');
   expand.onclick = () => episodeDivs.forEach(d => d.expand());
   collapse.onclick = () => episodeDivs.forEach(d => d.collapse());
 
-  const expandCollapse = document.createElement('div');
-  expandCollapse.classList.add(styles.expandCollapseControls);
-  expandCollapse.appendChild(expand);
-  expandCollapse.appendChild(collapse);
-  controls.appendChild(expandCollapse);
+  const expandCollapse = createElement('div', { classList: [styles.expandCollapseControls] }, [expand, collapse]);
 
-  Object.values(episodes)
-    .filter(e => e.category === 'Critical Role')
-    .sort(episodeSortFn)
-    .forEach(e => episodeDivs.push(div.appendChild(episodeElement(e))));
+  const controls = createElement('div', { classList: [styles.episodesControls] }, [search, expandCollapse]);
+  const div = createElement('div', { classList: [styles.episodes] }, [controls, ...episodeDivs]);
 
   return div;
 }

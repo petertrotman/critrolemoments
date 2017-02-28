@@ -2,7 +2,7 @@ import moments from '../data/moments.json';
 import styles from './styles.css';
 
 import { ytElement } from './youtube';
-import { parseTimestamp, padTimestamp } from './util';
+import { createElement, parseTimestamp, padTimestamp } from './util';
 
 
 function momentSortFn(a, b) {
@@ -19,26 +19,21 @@ function momentSortFn(a, b) {
 }
 
 export function momentElement(episode, moment) {
-  const li = document.createElement('li');
-  li.classList.add(styles.moment);
-
-  const text = document.createElement('span');
-  text.classList.add(styles.momentText);
-  const momentTimestamp = document.createElement('span');
-  const momentDescription = document.createElement('span');
-  momentTimestamp.classList.add(styles.momentTimestamp);
-  momentDescription.classList.add(styles.momentDescription);
-  momentTimestamp.innerHTML = `[${padTimestamp(moment.timestamp)}]`;
   const momentDescriptionText = `${moment.tags ? `[${moment.tags}] ` : ''}${moment.description}`;
-  momentDescription.innerHTML = momentDescriptionText;
-  text.appendChild(momentTimestamp);
-  text.appendChild(momentDescription);
+  const text = createElement('span', {
+    classList: [styles.momentText],
+    title: moment.source || '',
+  }, [
+    createElement('span', { classList: [styles.momentTimestamp] }, `[${padTimestamp(moment.timestamp)}]`),
+    createElement('span', { classList: [styles.momentDescription] }, momentDescriptionText),
+  ]);
 
-  li.appendChild(text);
+  const li = createElement('li', { classList: [styles.moment] }, [text]);
 
   let yt;
   let addYtPlayer;
   let removeYtPlayer;
+
   addYtPlayer = () => {  // eslint-disable-line prefer-const
     const width = li.getBoundingClientRect().width;
     yt = li.appendChild(ytElement(episode, moment, width));
@@ -70,16 +65,12 @@ export function momentElement(episode, moment) {
 
 
 export function momentsElement(episode) {
-  const ul = document.createElement('ul');
-  ul.classList.add(styles.moments);
-
-  const momentItems = [];
-
-  Object.values(moments)
+  const momentItems = Object.values(moments)
     .filter(m => m.episodeId === episode.id)
     .sort(momentSortFn)
-    .forEach(m => momentItems.push(ul.appendChild(momentElement(episode, m))));
+    .map(m => momentElement(episode, m));
 
+  const ul = createElement('ul', { classList: [styles.moments] }, momentItems);
   ul.nMoments = momentItems.length;
 
   ul.search = (searchText) => {
