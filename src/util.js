@@ -1,3 +1,30 @@
+export function createElement(element, attrs, children) {
+  const el = document.createElement(element);
+
+  const { classList, ...otherAttrs } = attrs;
+  if (classList) classList.forEach(cls => el.classList.add(cls));
+
+  Object.entries(otherAttrs)
+    .forEach(([attr, val]) => el.setAttribute(attr, val));
+
+  const append = (child) => {
+    if (typeof child === 'string') {
+      el.innerHTML = child;
+    } else {
+      el.appendChild(child);
+    }
+  };
+
+  if (children === undefined) return el;
+  if (Array.isArray(children)) {
+    children.forEach(append);
+  } else {
+    append(children);
+  }
+
+  return el;
+}
+
 export function parseTimestamp(ts) {
   const split = ts.split(':').reverse();
   const s = parseInt(split[0], 10);
