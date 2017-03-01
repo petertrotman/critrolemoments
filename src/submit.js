@@ -50,7 +50,7 @@ export function submitElement() {
     try {
       error.innerHTML = '';
       success.innerHTML = '';
-      const episode = selectOptions[select.selectedIndex];
+      const episodeId = select.options[select.selectedIndex].value;
       const ts = parseTimestamp(
         `${timestampHour.value}:${timestampMinute.value}:${timestampSecond.value}`,
       );
@@ -58,7 +58,7 @@ export function submitElement() {
       const database = firebase.database();
       const pushKey = database.ref('submitted').push().key;
       database.ref(`submitted/${pushKey}`).set({
-        episodeId: episode.id,
+        episodeId,
         timestamp: `${ts.h}:${ts.m}:${ts.s}`,
         description: description.value,
         source: credit.value,
