@@ -1,0 +1,43 @@
+@import url('https://fonts.googleapis.com/css?family=Average|Cinzel+Decorative|Droid+Sans+Mono');
+
+html {
+  background: #F9F9F9;
+  font-family: 'Average', serif;
+  font-size: 1.2em;
+  height: 100%;
+  color: #444;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+
+div#root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 95%;
+  margin: 0;
+  padding: 0;
+}
+
+h1, h2, h3, h4 {
+  font-family: 'Cinzel Decorative', cursive;
+}
+
+h1 {
+  color: #F5F5F5;
+  font-size: 3em;
+  text-align: center;
+  margin: 0;
+}
+
+input[type="text"], textarea {
+  font-family: 'Average', serif;
+  font-size: 1em;
+}
