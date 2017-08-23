@@ -7,7 +7,7 @@
     "start": "webpack-dev-server",
     "prebuild": "rimraf dist",
     "build": "NODE_ENV=production webpack -p",
-    "postbuild": "copyfiles -u 1 static/* dist",
+    "postbuild": "copyfiles -u 1 static/* static/**/* dist",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
