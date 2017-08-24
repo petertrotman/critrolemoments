@@ -6,10 +6,12 @@ import logger from 'redux-logger';
 import { ConnectedRouter, routerMiddleware } from 'react-router-redux';
 import { AppContainer } from 'react-hot-loader';
 import createHistory from 'history/createBrowserHistory';
+import { ThemeProvider } from 'styled-components';
 
 import App from './App';
 
 import reducers from './reducers';
+import theme from './theme';
 
 const history = createHistory();
 const middleware = applyMiddleware(
@@ -23,7 +25,9 @@ const render = (Component) => {
     <AppContainer>
       <Provider store={store}>
         <ConnectedRouter history={history}>
-          <Component />
+          <ThemeProvider theme={theme}>
+            <Component />
+          </ThemeProvider>
         </ConnectedRouter>
       </Provider>
     </AppContainer>,

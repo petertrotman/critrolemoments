@@ -13,7 +13,13 @@ module.exports = {
 
   output: {
     path: path.join(__dirname, 'dist'),
-    filename: 'bundle.js',
+    filename: 'bundle-[hash].js',
+  },
+
+  resolve: {
+    alias: {
+      svg: path.join(__dirname, 'static', 'svg'),
+    },
   },
 
   module: {
@@ -22,6 +28,11 @@ module.exports = {
         test: /\.jsx?$/,
         loader: 'babel-loader',
         exclude: /node_modules/,
+      },
+
+      {
+        test: /\.svg$/,
+        loader: 'svg-url-loader',
       },
     ],
   },
@@ -32,6 +43,7 @@ module.exports = {
       template: './src/index.html.ejs',
     }),
     new webpack.HotModuleReplacementPlugin(),
+    new webpack.NamedModulesPlugin(),
   ],
 
   devServer: {
