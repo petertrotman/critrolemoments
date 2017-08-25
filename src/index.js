@@ -10,8 +10,11 @@ import { ThemeProvider } from 'styled-components';
 
 import App from './App';
 
+import initFirebase from './firebase';
 import reducers from './reducers';
 import theme from './theme';
+
+initFirebase();
 
 const history = createHistory();
 const middleware = applyMiddleware(

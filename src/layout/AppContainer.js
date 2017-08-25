@@ -6,10 +6,10 @@ const FullContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 100%;
   width: 100%;
-  height: 100vh;
   width: 100vw;
+  min-height: 100%;
+  min-height: 100vh;
   padding: 0;
   margin: 0;
   background: ${props => props.theme.background};
@@ -22,10 +22,13 @@ const WidthContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 100%;
+  justify-content: space-between;
   padding: 0;
   margin: 0;
   width: 100%;
+  width: 100vw;
+  min-height: 100%;
+  min-height: 100vh;
   max-width: ${props => props.theme.maxWidth};
 `;
 
