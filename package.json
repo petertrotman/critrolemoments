@@ -9,7 +9,9 @@
     "prebuild": "rimraf dist",
     "build": "NODE_ENV=production webpack -p",
     "postbuild": "copyfiles -u 1 static/* static/**/* dist",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest",
+    "predeploy": "npm run test && npm run build",
+    "deploy": "firebase deploy"
   },
   "repository": {
     "type": "git",
@@ -52,6 +54,7 @@
     "eslint-plugin-jsx-a11y": "^5.1.1",
     "eslint-plugin-react": "^7.3.0",
     "html-webpack-plugin": "^2.30.1",
+    "jest": "^20.0.4",
     "rimraf": "^2.6.1",
     "webpack": "^3.5.5",
     "webpack-dev-server": "^2.7.1"
