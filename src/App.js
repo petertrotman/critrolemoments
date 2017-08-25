@@ -3,7 +3,7 @@ import { Route, Link } from 'react-router-dom';
 
 import AppContainer from './layout/AppContainer';
 import Header from './layout/Header';
-import DesktopNav from './layout/DesktopNav';
+import Nav from './layout/Nav';
 
 // const Aux = ({ children }) => children;
 
@@ -13,7 +13,7 @@ const Page2 = () => <Link to="/"><h1>Hello 2</h1></Link>;
 const App = () => (
   <AppContainer>
     <Header />
-    <DesktopNav />
+    <Nav />
     <Route exact path="/" component={Page1} />
     <Route path="/page2" component={Page2} />
   </AppContainer>
