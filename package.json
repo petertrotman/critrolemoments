@@ -60,7 +60,9 @@
     "webpack-dev-server": "^2.7.1"
   },
   "dependencies": {
+    "css-loader": "^0.28.5",
     "firebase": "^4.3.0",
+    "firebaseui": "^2.3.0",
     "history": "^4.7.2",
     "polished": "^1.4.1",
     "prop-types": "^15.5.10",
@@ -73,6 +75,7 @@
     "react-router-redux": "^5.0.0-alpha.6",
     "redux": "^3.7.2",
     "redux-logger": "^3.0.6",
+    "style-loader": "^0.18.2",
     "styled-components": "^2.1.2",
     "svg-url-loader": "^2.1.1"
   }

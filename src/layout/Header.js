@@ -2,17 +2,30 @@ import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
+import { mobileView } from './util';
+
 const StyledHeader = styled.header`
+  background: ${props => props.theme.background};
+
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
   width: 100%;
+  height: ${props => props.theme.headerHeight}px;
 
-  font-size: 2em;
+  font-size: 1.5em;
   padding: 0;
-  padding-top: 0.1em;
-  padding-bottom: 0.2em;
+
+  ${mobileView} {
+    box-shadow: 0px 1px 10px ${props => props.theme.primary};
+  }
+`;
+
+const StyledTitle = styled.div`
+  overflow: hidden;
+  white-space: nowrap;
+  max-width: 80%;
 
   > a {
     text-decoration: none;
@@ -33,10 +46,12 @@ const StyledHeader = styled.header`
 
 const Header = () => (
   <StyledHeader>
-    <Link to="/">
-      <img src="images/critrolemoments.png" alt="" />
-      Header
-    </Link>
+    <StyledTitle>
+      <Link to="/">
+        <img src="/images/critrolemoments.png" alt="" />
+        Critical Role Moments
+      </Link>
+    </StyledTitle>
   </StyledHeader>
 );
 

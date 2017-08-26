@@ -4,6 +4,9 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   entry: {
+    // common: [
+    //   'react', 'react-dom',
+    // ],
     app: [
       'babel-polyfill',
       'react-hot-loader/patch',
@@ -13,7 +16,8 @@ module.exports = {
 
   output: {
     path: path.join(__dirname, 'dist'),
-    filename: 'bundle-[hash].js',
+    filename: '[name].bundle.[hash].js',
+    publicPath: '/',
   },
 
   resolve: {
@@ -34,6 +38,14 @@ module.exports = {
         test: /\.svg$/,
         loader: 'svg-url-loader',
       },
+
+      {
+        test: /\.css$/,
+        loaders: [
+          'style-loader',
+          'css-loader',
+        ],
+      },
     ],
   },
 
@@ -41,6 +53,9 @@ module.exports = {
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: './src/index.html.ejs',
+    }),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'common',
     }),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin(),

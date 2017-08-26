@@ -1,8 +1,14 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+
 import firebase from 'firebase/app';
 import 'firebase/database';
 import 'firebase/auth';
 
-export default function initFirebase() {
+import firebaseui from 'firebaseui';
+import 'firebaseui/dist/firebaseui.css';
+
+export function initFirebase() {
   return firebase.initializeApp({
     apiKey: 'AIzaSyD04KRJhHIgHDq_O66kORZriJ5ExOLRWbY',
     authDomain: 'critrolemoments.firebaseapp.com',
@@ -13,3 +19,57 @@ export default function initFirebase() {
   });
 }
 
+export function initFirebaseUi(firebaseApp) {
+  return new firebaseui.auth.AuthUI(firebaseApp.auth());
+}
+
+class FirebaseProvider extends React.Component {
+  getChildContext() {
+    return {
+      firebaseApp: this.props.firebaseApp,
+      firebaseuiApp: this.props.firebaseuiApp,
+    };
+  }
+
+  render() {
+    return this.props.children;
+  }
+}
+
+export const firebaseAppType = PropTypes.shape({});
+export const firebaseuiAppType = PropTypes.shape({});
+
+FirebaseProvider.propTypes = {
+  firebaseApp: firebaseAppType.isRequired,
+  firebaseuiApp: firebaseuiAppType.isRequired,
+  children: PropTypes.node.isRequired,
+};
+
+FirebaseProvider.childContextTypes = {
+  firebaseApp: firebaseAppType,
+  firebaseuiApp: firebaseuiAppType,
+};
+
+export { FirebaseProvider };
+
+const withFirebase = (Component) => {
+  const FirebaseComponent = (props, context) => (
+    <Component
+      {...props}
+      firebaseApp={context.firebaseApp}
+      firebaseuiApp={context.firebaseuiApp}
+    />
+  );
+
+  FirebaseComponent.contextTypes = {
+    firebaseApp: firebaseAppType,
+    firebaseuiApp: firebaseuiAppType,
+  };
+
+  FirebaseComponent.displayName =
+    `withFirebase(${Component.displayName || Component.name || 'Component'})`;
+
+  return FirebaseComponent;
+};
+
+export { withFirebase };
