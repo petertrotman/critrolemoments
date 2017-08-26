@@ -18,10 +18,12 @@ const firebaseApp = initFirebase();
 const firebaseuiApp = initFirebaseUi(firebaseApp);
 
 const history = createHistory();
-const middleware = applyMiddleware(
-  routerMiddleware(history),
-  logger,
-);
+
+let middlewares = [routerMiddleware(history)];
+if (process.env.NODE_ENV !== 'production') {
+  middlewares = middlewares.concat(logger);
+}
+const middleware = applyMiddleware(...middlewares);
 const store = createStore(reducers, middleware);
 
 const render = (Component) => {
