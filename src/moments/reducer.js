@@ -1,6 +1,6 @@
 import {
-  EXPLORE_REQUEST_MOMENTS,
-  EXPLORE_RECEIVE_MOMENTS,
+  MOMENTS_REQUEST_MOMENTS,
+  MOMENTS_RECEIVE_MOMENTS,
 } from './actions';
 
 const defaultState = {
@@ -13,10 +13,10 @@ const defaultState = {
 
 export default function reducer(state = defaultState, action) {
   switch (action.type) {
-    case EXPLORE_REQUEST_MOMENTS: {
+    case MOMENTS_REQUEST_MOMENTS: {
       return state;
     }
-    case EXPLORE_RECEIVE_MOMENTS: {
+    case MOMENTS_RECEIVE_MOMENTS: {
       return state;
     }
     default:
