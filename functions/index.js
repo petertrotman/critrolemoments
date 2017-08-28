@@ -13,8 +13,6 @@ admin.initializeApp(functions.config().firebase);
 //   response.send('Hello from Firebase!');
 // });
 
-exports.hourly = () => {
-  functions.pubsub.topic('hourly-tick').onPublish(() => {
-    console.log('this job ran every hour!');
-  });
-};
+exports.hourly = functions.pubsub.topic('hourly-tick').onPublish(() => {
+  episodes.update(admin.database());
+});
