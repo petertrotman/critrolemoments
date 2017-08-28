@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { compose } from 'redux';
-import { connect } from 'react-redux';
 import { withRouter, Redirect } from 'react-router';
+import firebase from 'firebase';
 
 const loginRequired = (Component) => {
-  const LoginComponent = ({ user, location, ...props }) => {
+  const LoginComponent = ({ location, ...props }) => {
+    const user = firebase.app().auth().currentUser || (location.state && location.state.user);
+
     if (user) {
       return <Component {...props} />;
     }
@@ -22,18 +23,10 @@ const loginRequired = (Component) => {
   };
 
   LoginComponent.propTypes = {
-    user: PropTypes.shape({}),
     location: PropTypes.shape({ pathname: PropTypes.string.isRequired }).isRequired,
   };
 
-  LoginComponent.defaultProps = {
-    user: null,
-  };
-
-  return compose(
-    connect(state => ({ user: state.auth.user })),
-    withRouter,
-  )(LoginComponent);
+  return withRouter(LoginComponent);
 };
 
 export default loginRequired;

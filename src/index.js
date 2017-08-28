@@ -11,12 +11,11 @@ import { ThemeProvider } from 'styled-components';
 
 import App from './App';
 
-import { initFirebase, initFirebaseUi, FirebaseProvider } from './firebase';
+import { initFirebase, FirebaseProvider } from './firebase';
 import reducers from './reducers';
 import theme from './theme';
 
 const firebaseApp = initFirebase();
-const firebaseuiApp = initFirebaseUi(firebaseApp);
 
 const history = createHistory();
 
@@ -30,7 +29,7 @@ const store = createStore(reducers, middleware);
 const render = (Component) => {
   ReactDOM.render(
     <AppContainer>
-      <FirebaseProvider firebaseApp={firebaseApp} firebaseuiApp={firebaseuiApp}>
+      <FirebaseProvider firebaseApp={firebaseApp}>
         <Provider store={store}>
           <ConnectedRouter history={history}>
             <ThemeProvider theme={theme}>
