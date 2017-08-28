@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import MomentsSvg from 'svg/home.svg';
-import ExploreSvg from 'svg/camera-o.svg';
-import AddSvg from 'svg/plus-circle-o.svg';
-import AccountSvg from 'svg/user.svg';
+import MomentsSvg from 'feather-icons/dist/icons/heart.svg';
+import ExploreSvg from 'feather-icons/dist/icons/aperture.svg';
+import AddSvg from 'feather-icons/dist/icons/plus-circle.svg';
+import SettingsSvg from 'feather-icons/dist/icons/settings.svg';
 
 import NavItem from './NavItem';
 
@@ -19,7 +19,7 @@ const StyledNav = styled.nav`
 
   > ul {
     padding: 0;
-    margin: 1em 0;
+    margin: 0;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -31,10 +31,10 @@ const StyledNav = styled.nav`
 const Nav = props => (
   <StyledNav {...props}>
     <ul>
-      <NavItem name="Moments" svg={MomentsSvg} to="/moments" />
-      <NavItem name="Explore" svg={ExploreSvg} to="/explore" />
-      <NavItem name="Add" svg={AddSvg} to="/add" />
-      <NavItem name="Account" svg={AccountSvg} to="/account" />
+      <NavItem name="Moments" Icon={MomentsSvg} to="/moments" />
+      <NavItem name="Explore" Icon={ExploreSvg} to="/explore" />
+      <NavItem name="Add" Icon={AddSvg} to="/add" />
+      <NavItem name="Settings" Icon={SettingsSvg} to="/settings" />
     </ul>
   </StyledNav>
 );

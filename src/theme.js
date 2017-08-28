@@ -8,5 +8,5 @@ export default {
   primary: '#F50057',
   mobileBreakpoint: 768,
   headerHeight: 60,
-  navHeight: 80,
+  navHeight: 50,
 };

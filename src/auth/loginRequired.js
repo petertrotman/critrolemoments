@@ -14,6 +14,7 @@ const loginRequired = (Component) => {
       <Redirect
         to={{
           pathname: '/auth/signin',
+          search: `?next=${location.pathname}`,
           state: { next: location.pathname },
         }}
       />

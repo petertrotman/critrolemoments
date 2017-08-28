@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import { Link, withRouter } from 'react-router-dom';
 import { lighten } from 'polished';
 
-import Icon from '../util/Icon';
 import { mobileView, desktopView } from './util';
 
 const StyledLi = styled.li`
@@ -29,19 +28,23 @@ const StyledLi = styled.li`
   :hover {
     color: ${props => lighten(0.2, props.theme.primary)};
     svg {
-      fill: ${props => lighten(0.3, props.theme.primary)};
+      stroke: ${props => lighten(0.3, props.theme.primary)};
     }
   }
 
   svg {
-    fill: ${props => lighten(0.2, (props.active ? props.theme.primary : props.theme.color))};
+    width: 1.4em;
+    height: 1.4em;
+    stroke-width: 1.5px;
+    stroke: ${props => lighten(0.2, (props.active ? props.theme.primary : props.theme.color))};
+    fill: none;
   }
 `;
 
 const StyledLink = styled(Link)`
   color: inherit;
   text-decoration: none;
-  padding: 0;
+  padding: 0.5em 0;
 
   display: flex;
   flex-direction: row;
@@ -52,13 +55,13 @@ const StyledLink = styled(Link)`
     margin: 0 0.5em;
   }
 
-  ${mobileView} {
-    padding-top: 0.5em;
-  }
+  // ${mobileView} {
+  //   padding-top: 0.5em;
+  // }
 
-  ${desktopView} {
-    padding-bottom: 0.5em;
-  }
+  // ${desktopView} {
+  //   padding-bottom: 0.5em;
+  // }
 `;
 
 const StyledText = styled.span`
@@ -67,23 +70,21 @@ const StyledText = styled.span`
   }
 `;
 
-const _NavItem = ({ name, to, svg, location }) => (
+const NavItem = ({ name, to, Icon, location }) => (
   <StyledLi active={location.pathname.startsWith(to)}>
     <StyledLink to={to}>
-      <Icon svg={svg} size="1.2em" />
+      <Icon />
       <StyledText>{ name }</StyledText>
     </StyledLink>
   </StyledLi>
 );
 
-_NavItem.propTypes = {
-  svg: PropTypes.string.isRequired,
+NavItem.propTypes = {
+  Icon: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
   to: PropTypes.string.isRequired,
   location: PropTypes.shape({ pathname: PropTypes.string.isRequired }).isRequired,
 };
 
-const NavItem = withRouter(_NavItem);
-
-export default NavItem;
+export default withRouter(NavItem);
 

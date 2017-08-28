@@ -20,12 +20,6 @@ module.exports = {
     publicPath: '/',
   },
 
-  resolve: {
-    alias: {
-      svg: path.join(__dirname, 'static', 'svg'),
-    },
-  },
-
   module: {
     rules: [
       {
@@ -36,7 +30,7 @@ module.exports = {
 
       {
         test: /\.svg$/,
-        loader: 'svg-url-loader',
+        loader: 'svg-react-loader',
       },
 
       {

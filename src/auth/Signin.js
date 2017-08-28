@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { push as pushAction } from 'react-router-redux';
 import { withRouter } from 'react-router-dom';
 import firebase from 'firebase/app';
+import queryString from 'query-string';
 
 import { userLogin as userLoginAction } from './actions';
 import { withFirebase, firebaseuiAppType } from '../firebase';
@@ -18,7 +19,12 @@ const StyledDiv = styled.div`
 
 const Signin = ({ location, firebaseuiApp, push, userLogin }) => {
   const signInSuccess = (currentUser, credential, redirectUrl) => {
-    const next = redirectUrl || (location.state && location.state.next) || '/';
+    const next = (
+      redirectUrl
+      || queryString.parse(location.search).next
+      || (location.state && location.state.next)
+      || '/'
+    );
     userLogin(currentUser, null);
     push(next);
   };
