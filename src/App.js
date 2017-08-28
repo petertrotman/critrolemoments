@@ -8,15 +8,14 @@ import Explore from './explore/Explore';
 import Add from './add/Add';
 import Account from './account/Account';
 import Auth from './auth/Auth';
-import loginRequired from './auth/loginRequired';
 
 const App = () => (
   <Layout>
     <Route exact path="/" component={Home} />
     <Route path="/moments" component={Moments} />
     <Route path="/explore" component={Explore} />
-    <Route path="/add" component={loginRequired(Add)} />
-    <Route path="/account" component={loginRequired(Account)} />
+    <Route path="/add" component={Add} />
+    <Route path="/account" component={Account} />
     <Route path="/auth" component={Auth} />
   </Layout>
 );
