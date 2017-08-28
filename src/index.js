@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
+import thunk from 'redux-thunk';
 import logger from 'redux-logger';
 import { ConnectedRouter, routerMiddleware } from 'react-router-redux';
 import { AppContainer } from 'react-hot-loader';
@@ -19,7 +20,7 @@ const firebaseuiApp = initFirebaseUi(firebaseApp);
 
 const history = createHistory();
 
-let middlewares = [routerMiddleware(history)];
+let middlewares = [routerMiddleware(history), thunk];
 if (process.env.NODE_ENV !== 'production') {
   middlewares = middlewares.concat(logger);
 }
