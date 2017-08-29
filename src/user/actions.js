@@ -38,10 +38,10 @@ export function requestUser(optionalUser) {
   };
 }
 
-export function receiveStar(momentKey, error) {
+export function receiveStar({ momentKey, added }, error) {
   return {
     type: USER_RECEIVE_STAR,
-    payload: { moment: momentKey },
+    payload: { moment: momentKey, added },
     error,
   };
 }
@@ -56,16 +56,17 @@ export function requestStar(momentKey) {
       payload: { moment: momentKey },
     });
 
-    const setValue = momentKey in getState().user.data.starredMoments
-      ? null // Remove star
-      : true; // Add star
+    const added = !(momentKey in getState().user.data.starredMoments);
+    const setValue = added
+      ? true // Add star
+      : null; // Remove star
 
     firebase
       .app()
       .database()
       .ref(`/users/${user.uid}/starredMoments/${momentKey}`)
       .set(setValue)
-      .then(() => dispatch(receiveStar(momentKey)))
-      .catch(err => dispatch(receiveStar(momentKey, err)));
+      .then(() => dispatch(receiveStar({ momentKey, added })))
+      .catch(err => dispatch(receiveStar({ momentKey, added }, err)));
   };
 }

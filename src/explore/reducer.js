@@ -1,7 +1,10 @@
+import update from 'immutability-helper';
+
 import {
   EXPLORE_REQUEST_MOMENTS,
   EXPLORE_RECEIVE_MOMENTS,
 } from './actions';
+import { USER_RECEIVE_STAR } from '../user/actions';
 
 const defaultState = {
   byId: {},
@@ -22,6 +25,7 @@ export default function reducer(state = defaultState, action) {
         options: action.payload.options,
       };
     }
+
     case EXPLORE_RECEIVE_MOMENTS: {
       if (action.error) {
         return {
@@ -45,6 +49,21 @@ export default function reducer(state = defaultState, action) {
         hasFetched: true,
       };
     }
+
+    case USER_RECEIVE_STAR: {
+      if (action.error) return state;
+      const key = action.payload.moment;
+      return update(state, {
+        byId: {
+          [key]: {
+            starCount: {
+              $set: (state.byId[key].starCount || 0) + (action.payload.added ? 1 : -1),
+            },
+          },
+        },
+      });
+    }
+
     default:
       return state;
   }

@@ -7,12 +7,13 @@ import { momentType } from './util';
 
 const MomentListDiv = styled.div`
   width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
 
   ul {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
     margin: 0;
     padding: 0;
     width: 100%;

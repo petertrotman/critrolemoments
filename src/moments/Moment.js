@@ -12,21 +12,28 @@ import HeartSvg from 'feather-icons/dist/icons/heart.svg';
 import { requestStar } from '../user/actions';
 import { momentType } from './util';
 import { signInSwal } from '../auth/util';
+import { mobileView, desktopView } from '../layout/util';
 
 /* eslint-disable indent */
-const svgSize = props => `${props.theme.momentSummaryHeight * 0.8}px`;
 const StyledDiv = styled.div`
-  width: 90%;
-  max-width: ${props => props.theme.maxWidth * 0.9}px;
-  font-size: 1.5em;
-  height: ${props => props.theme.momentSummaryHeight}px;
+  width: 95%;
+  // max-width: ${props => props.theme.maxWidth * 0.9}px;
+  // height: ${props => props.theme.momentSummaryHeight}px;
+  height: 3em;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
 
+  margin: 0.5em 0;
+  box-shadow: 0px 0px 10px #AAA;
+
+  ${desktopView} {
+    font-size: 1.6em;
+  }
+
   > * {
-    margin: 0 1em;
+    margin: 0 0.2em;
     padding: 0;
   }
 
@@ -34,33 +41,46 @@ const StyledDiv = styled.div`
     ${ellipsis()};
   }
 
-  svg {
-    height: ${svgSize};
-    width: ${svgSize};
-    min-width: ${svgSize};
+  div.heart {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
-    cursor: pointer;
-    fill: ${(props) => {
-      if (props.starring) {
-        return lighten(0.4, props.theme.primary);
-      } else if (props.starred) {
-        return lighten(0.2, props.theme.primary);
+    span {
+      font-size: 0.5em;
+    }
+
+    svg {
+      height: 2em;
+      width: 2em;
+      min-width: 2em;
+
+      cursor: pointer;
+      fill: ${(props) => {
+        if (props.starring) {
+          return lighten(0.4, props.theme.primary);
+        } else if (props.starred) {
+          return lighten(0.2, props.theme.primary);
+        }
+        return 'none';
+      }};
+
+      stroke: ${props => (props.starred
+        ? props.theme.accent
+        : props.color)};
+
+      filter: ${props => (props.starred
+        ? 'drop-shadow(0 0 10px #AAA)'
+        : 'none')};
+
+      @media (hover) {
+        :hover {
+          fill: ${props => lighten(0.4, props.theme.primary)};
+        }
       }
-      return 'none';
-    }};
-
-    stroke: ${props => (props.starred
-      ? props.theme.accent
-      : props.color)};
-
-    filter: ${props => (props.starred
-      ? `drop-shadow(0 0 10px #AAA)`
-      : 'none')};
-
-    :hover {
-      fill: ${props => lighten(0.4, props.theme.primary)};
     }
   }
+
 `;
 /* eslint-enable indent */
 
@@ -126,7 +146,10 @@ class Moment extends React.Component {
         starred={this.starred}
         starring={this.starring}
       >
-        <HeartSvg onClick={(e) => { this.heartClickHandler(e); }} />
+        <div className="heart">
+          <HeartSvg onClick={(e) => { this.heartClickHandler(e); }} />
+          <span>{ this.props.moment.starCount }</span>
+        </div>
         <span>{ this.props.moment.title }</span>
       </StyledDiv>
     );
