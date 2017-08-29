@@ -11,12 +11,13 @@ const loginRequired = (Component) => {
       return <Component {...props} />;
     }
 
+    const next = encodeURIComponent(`${location.pathname}${location.search}`);
     return (
       <Redirect
         to={{
           pathname: '/auth/signin',
-          search: `?next=${location.pathname}`,
-          state: { next: location.pathname },
+          search: `?next=${next}`,
+          state: { next },
         }}
       />
     );

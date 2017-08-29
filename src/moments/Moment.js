@@ -48,7 +48,10 @@ class Moment extends React.Component {
   static propTypes = {
     moment: momentType.isRequired,
     push: PropTypes.func.isRequired,
-    location: PropTypes.shape({ pathname: PropTypes.string.isRequired }).isRequired,
+    location: PropTypes.shape({
+      pathname: PropTypes.string.isRequired,
+      search: PropTypes.string,
+    }).isRequired,
     user: PropTypes.shape({}),
     expanded: PropTypes.bool,
   }
@@ -76,10 +79,11 @@ class Moment extends React.Component {
         showCancelButton: true,
         confirmButtonText: 'Sign in',
         preConfirm: () => new Promise((resolve) => {
+          const next = encodeURIComponent(`${location.pathname}${location.search}`);
           resolve(push({
             pathname: '/auth/signin',
-            search: `?next=${location.pathname}`,
-            state: { next: location.pathname },
+            search: `?next=${next}`,
+            state: { next },
           }));
         }),
       }).catch(swal.noop);

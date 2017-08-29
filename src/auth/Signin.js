@@ -42,11 +42,12 @@ class Signin extends React.Component {
 
   getNext() {
     const location = this.props.location;
-    return (null
+    const encodedNext = (null
       || queryString.parse(location.search).next
       || (location.state && location.state.next)
       || '/'
     );
+    return decodeURIComponent(encodedNext);
   }
 
   render() {
