@@ -20,8 +20,18 @@ export function requestEpisodes() {
       type: EPISODES_REQUEST_EPISODES,
     });
 
-    firebase.app().database().ref('/episodes').once('value', (snapshot) => {
-      dispatch(receiveEpisodes(snapshot.val()));
-    });
+    console.log(firebase);
+    console.log(firebase.app());
+    console.log(firebase.app().database());
+    console.log(firebase.app().database().ref('/episodes'));
+    console.log(firebase.app().database().ref('/episodes').once('value', (ss) => { console.log(ss); }));
+
+    firebase
+      .app()
+      .database()
+      .ref('/episodes')
+      .once('value', (snapshot) => {
+        dispatch(receiveEpisodes(snapshot.val()));
+      });
   };
 }
