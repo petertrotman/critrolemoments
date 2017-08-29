@@ -9,6 +9,8 @@ import { lighten } from 'polished';
 
 import HeartSvg from 'feather-icons/dist/icons/heart.svg';
 
+import MomentMain from './MomentMain';
+
 import { requestStar } from '../user/actions';
 import { momentType } from './util';
 import { signInSwal } from '../auth/util';
@@ -27,9 +29,9 @@ const StyledDiv = styled.div`
   box-shadow: 2px 2px 8px #AAA;
   border-radius: 5px;
 
-  // ${desktopView} {
-  //   font-size: 1.6em;
-  // }
+  ${desktopView} {
+    font-size: 1.2em;
+  }
 
   div.top {
     width: 100%;
@@ -81,13 +83,8 @@ const StyledDiv = styled.div`
   }
 
   div.title {
-    // width: 100%;
+    width: 100%;
     cursor: pointer;
-  }
-
-
-  div.controls {
-    display: ${props => (props.expanded ? 'inline' : 'none')};
   }
 `;
 /* eslint-enable indent */
@@ -173,29 +170,7 @@ class Moment extends React.Component {
             <span>{ this.props.moment.title }</span>
           </div>
         </div>
-        <div className="controls">
-          .<br />
-          .<br />
-          .<br />
-          .<br />
-          .<br />
-          .<br />
-          .<br />
-          .<br />
-          .<br />
-          .<br />
-          .<br />
-          .<br />
-          .<br />
-          .<br />
-          .<br />
-          .<br />
-          .<br />
-          .<br />
-          .<br />
-          .<br />
-          .<br />
-        </div>
+        { this.state.expanded && <MomentMain /> }
       </StyledDiv>
     );
   }

@@ -83,6 +83,7 @@
     "style-loader": "^0.18.2",
     "styled-components": "^2.1.2",
     "svg-react-loader": "^0.4.5",
-    "sweetalert2": "^6.6.9"
+    "sweetalert2": "^6.6.9",
+    "yt-player": "^2.5.2"
   }
 }
