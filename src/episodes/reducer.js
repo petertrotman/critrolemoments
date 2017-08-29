@@ -29,7 +29,7 @@ export default function reducer(state = defaultState, action) {
         };
       }
 
-      const byId = action.payload.data.items;
+      const byId = action.payload.data;
       const order = Object.entries(byId)
         .sort((a, b) => a[1].snippet.position - b[1].snippet.position)
         .map(entry => entry[0]);

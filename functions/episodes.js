@@ -35,7 +35,7 @@ function fetchEpisodes() {
 
 function updateEpisodes(db) {
   const MIN_TIME_BETWEEN_UPDATES = 1000 * 60 * 60 * 0.5; // 1/2 hour
-  db.ref('/episodes/timestamp').once('value', (snapshot) => {
+  db.ref('/cron/episodes/last').once('value', (snapshot) => {
     const prev = snapshot.val() || 0;
     const time = Date.now() - prev;
     if (time < MIN_TIME_BETWEEN_UPDATES) {
@@ -44,11 +44,9 @@ function updateEpisodes(db) {
     }
     fetchEpisodes()
       .then((episodes) => {
-        db.ref('/episodes').set({
-          items: episodes.reduce((acc, episode) =>
-            Object.assign(acc, { [episode.snippet.resourceId.videoId]: episode }), {}),
-          timestamp: Date.now(),
-        });
+        db.ref('/episodes').set(episodes.reduce((acc, episode) =>
+          Object.assign(acc, { [episode.snippet.resourceId.videoId]: episode }), {}));
+        db.ref('/cron/episodes/last').set(Date.now());
       })
       .catch(console.error);
   });
