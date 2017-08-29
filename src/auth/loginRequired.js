@@ -5,7 +5,7 @@ import firebase from 'firebase/app';
 
 const loginRequired = (Component) => {
   const LoginComponent = ({ location, ...props }) => {
-    const user = firebase.app().auth().currentUser || (location.state && location.state.user);
+    const user = firebase.app().auth().currentUser;
 
     if (user) {
       return <Component {...props} />;

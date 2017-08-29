@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import loginRequired from '../auth/loginRequired';
 
 class Settings extends React.Component {
-  propTypes = {
+  static propTypes = {
     user: PropTypes.shape({
       displayName: PropTypes.string.isRequired,
     }).isRequired,

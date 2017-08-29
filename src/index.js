@@ -15,6 +15,8 @@ import { initFirebase, initFirebaseui, FirebaseProvider } from './firebase';
 import reducers from './reducers';
 import theme from './theme';
 
+import { userLogin, userLogout } from './auth/actions';
+
 const firebaseApp = initFirebase();
 const firebaseuiApp = initFirebaseui(firebaseApp);
 
@@ -26,6 +28,19 @@ if (process.env.NODE_ENV !== 'production') {
 }
 const middleware = applyMiddleware(...middlewares);
 const store = createStore(reducers, middleware);
+
+// Apply listener to firebase auth to ensure we capture auto-login
+let unsubscribeAuth;
+unsubscribeAuth = firebaseApp // eslint-disable-line prefer-const
+  .auth()
+  .onAuthStateChanged((user) => {
+    if (user) {
+      store.dispatch(userLogin(user));
+    } else {
+      store.dispatch(userLogout(user));
+    }
+    unsubscribeAuth();
+  });
 
 const render = (Component) => {
   ReactDOM.render(

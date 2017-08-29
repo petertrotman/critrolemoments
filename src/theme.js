@@ -8,6 +8,8 @@ export default {
   lineHeight: 1.5,
   color: '#444',
   primary: '#F50057',
+  secondary: '#05BEE0',
+  accent: '#FFEF00',
   mobileBreakpoint: 768,
   headerHeight: 60,
   navHeight: 50,

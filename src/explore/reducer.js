@@ -6,6 +6,7 @@ import {
 const defaultState = {
   byId: {},
   order: [],
+  options: {},
   error: null,
   isFetching: false,
   hasFetched: false,
@@ -18,6 +19,7 @@ export default function reducer(state = defaultState, action) {
         ...state,
         error: null,
         isFetching: true,
+        options: action.payload.options,
       };
     }
     case EXPLORE_RECEIVE_MOMENTS: {

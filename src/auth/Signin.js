@@ -24,7 +24,7 @@ class Signin extends React.Component {
     firebaseuiApp: firebaseuiAppType.isRequired,
     push: PropTypes.func.isRequired,
     userLogin: PropTypes.func.isRequired,
-    user: PropTypes.shape({}),
+    loggedIn: PropTypes.bool.isRequired,
   }
 
   static defaultProps = {
@@ -32,7 +32,7 @@ class Signin extends React.Component {
   };
 
   componentWillMount() {
-    const user = firebase.app().auth().currentUser || this.props.user;
+    const user = firebase.app().auth().currentUser || this.props.loggedIn;
     if (user) this.props.push(this.getNext());
   }
 
@@ -74,7 +74,7 @@ class Signin extends React.Component {
 
 export default compose(
   connect(
-    store => ({ user: store.auth.user }),
+    store => ({ loggedIn: store.auth.user != null }),
     dispatch => ({
       push: path => dispatch(pushAction(path)),
       userLogin: (user, error) => dispatch(userLoginAction(user, error)),

@@ -1,4 +1,5 @@
 import firebase from 'firebase/app';
+import swal from 'sweetalert2';
 
 export function mountFirebaseUi(node, firebaseApp, firebaseuiApp, signInSuccess) {
   if (!node) return;
@@ -22,4 +23,21 @@ export function mountFirebaseUi(node, firebaseApp, firebaseuiApp, signInSuccess)
     // Terms of service url.
     tosUrl: '/tos',
   });
+}
+
+export function signInSwal(push, location) {
+  swal({
+    title: 'Please sign in to do that',
+    type: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Sign in',
+    preConfirm: () => new Promise((resolve) => {
+      const next = encodeURIComponent(`${location.pathname}${location.search}`);
+      resolve(push({
+        pathname: '/auth/signin',
+        search: `?next=${next}`,
+        state: { next },
+      }));
+    }),
+  }).catch(swal.noop);
 }
