@@ -14,10 +14,34 @@ const defaultState = {
 export default function reducer(state = defaultState, action) {
   switch (action.type) {
     case EXPLORE_REQUEST_MOMENTS: {
-      return state;
+      return {
+        ...state,
+        error: null,
+        isFetching: true,
+      };
     }
     case EXPLORE_RECEIVE_MOMENTS: {
-      return state;
+      if (action.error) {
+        return {
+          ...state,
+          isFetching: false,
+          error: action.error,
+        };
+      }
+      if (!action.payload.data) {
+        return {
+          ...defaultState,
+          hasFetched: true,
+        };
+      }
+      return {
+        ...state,
+        byId: action.payload.data.byId,
+        order: action.payload.data.order,
+        error: null,
+        isFetching: false,
+        hasFetched: true,
+      };
     }
     default:
       return state;
