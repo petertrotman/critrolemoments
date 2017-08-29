@@ -4,6 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { Route } from 'react-router-dom';
+import firebase from 'firebase/app';
 
 import Layout from './layout/Layout';
 import Home from './home/Home';
@@ -14,11 +15,12 @@ import Settings from './settings/Settings';
 import Auth from './auth/Auth';
 
 import { requestEpisodes } from './episodes/actions';
-import { requestMoments } from './moments/actions';
+import { userLogin } from './auth/actions';
 
 function initData(store, dispatch) {
   if (!store.episodes.hasFetched) dispatch(requestEpisodes());
-  if (!store.moments.hasFetched) dispatch(requestMoments());
+  const user = firebase.app().auth().currentUser;
+  if (user) dispatch(userLogin(user));
 }
 
 class App extends React.Component {
