@@ -1,4 +1,6 @@
-import firebase from 'firebase';
+import firebase from 'firebase/app';
+
+import { parseMomentsSnapshot } from './util';
 
 export const MOMENTS_REQUEST_MOMENTS = 'MOMENTS_REQUEST_MOMENTS';
 export const MOMENTS_RECEIVE_MOMENTS = 'MOMENTS_RECEIVE_MOMENTS';
@@ -29,16 +31,8 @@ export function requestMoments() {
       .orderByChild(`starredBy/${user.uid}`)
       .equalTo(true)
       .once('value', (snapshot) => {
-        if (!snapshot.exists()) {
-          dispatch(receiveMoments(null));
-          return;
-        }
-
-        const byId = snapshot.val();
-        const order = [];
-        snapshot.forEach((childSnapshot) => { order.push(childSnapshot.key); });
-
-        dispatch(receiveMoments({ byId, order }));
+        const data = parseMomentsSnapshot(snapshot);
+        dispatch(receiveMoments(data));
       });
   };
 }

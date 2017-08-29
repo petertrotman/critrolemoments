@@ -9,4 +9,5 @@ export default {
   mobileBreakpoint: 768,
   headerHeight: 60,
   navHeight: 50,
+  momentSummaryHeight: 40,
 };

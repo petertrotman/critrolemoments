@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter, Redirect } from 'react-router';
-import firebase from 'firebase';
+import firebase from 'firebase/app';
 
 const loginRequired = (Component) => {
   const LoginComponent = ({ location, ...props }) => {

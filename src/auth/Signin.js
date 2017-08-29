@@ -6,11 +6,11 @@ import { connect } from 'react-redux';
 import { push as pushAction } from 'react-router-redux';
 import { withRouter } from 'react-router-dom';
 import firebase from 'firebase/app';
-import firebaseui from 'firebaseui';
-import 'firebaseui/dist/firebaseui.css';
 import queryString from 'query-string';
 
+import { withFirebase, firebaseuiAppType } from '../firebase';
 import { userLogin as userLoginAction } from './actions';
+import { mountFirebaseUi } from './util';
 
 const StyledDiv = styled.div`
   display: flex;
@@ -21,64 +21,51 @@ const StyledDiv = styled.div`
 class Signin extends React.Component {
   static propTypes = {
     location: PropTypes.shape({ pathname: PropTypes.string.isRequired }).isRequired,
+    firebaseuiApp: firebaseuiAppType.isRequired,
     push: PropTypes.func.isRequired,
     userLogin: PropTypes.func.isRequired,
+    user: PropTypes.shape({}),
   }
 
+  static defaultProps = {
+    user: null,
+  };
+
   componentWillMount() {
-    const auth = firebase.app().auth();
-    const ui = firebaseui.auth.AuthUI.getInstance(auth);
-    this.ui = ui || new firebaseui.auth.AuthUI(auth);
+    const user = firebase.app().auth().currentUser || this.props.user;
+    if (user) this.props.push(this.getNext());
   }
 
   componentWillUnmount() {
-    if (this.ui) { this.ui.delete(); }
+    this.props.firebaseuiApp.reset();
+  }
+
+  getNext() {
+    const location = this.props.location;
+    return (null
+      || queryString.parse(location.search).next
+      || (location.state && location.state.next)
+      || '/'
+    );
   }
 
   render() {
-    const { location, push, userLogin } = this.props;
+    const { push, userLogin, firebaseuiApp } = this.props;
+    const next = this.getNext();
+
     const signInSuccess = (currentUser, credential, redirectUrl) => {
-      const next = (null
-        || queryString.parse(location.search).next
-        || (location.state && location.state.next)
-        || '/'
-        || redirectUrl
-      );
       userLogin(currentUser);
-      firebase.app().auth().onAuthStateChanged(() => {
-        this.ui.reset();
-        this.ui.delete();
-        push(next);
-      });
+      push(next || redirectUrl);
     };
 
-    const mountFirebaseUi = (el) => {
-      if (!el) return;
-      this.ui.reset();
-      this.ui.start(el, {
-        // signInSuccessUrl: next,
-        callbacks: {
-          signInSuccess,
-        },
-        signInFlow: 'popup',
-        signInOptions: [
-          // Leave the lines as is for the providers you want to offer your users.
-          firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-          firebase.auth.FacebookAuthProvider.PROVIDER_ID,
-          // firebase.auth.TwitterAuthProvider.PROVIDER_ID,
-          // firebase.auth.GithubAuthProvider.PROVIDER_ID,
-          firebase.auth.EmailAuthProvider.PROVIDER_ID,
-          // firebase.auth.PhoneAuthProvider.PROVIDER_ID,
-        ],
-        // Terms of service url.
-        tosUrl: '/tos',
-      });
+    const mount = (el) => {
+      mountFirebaseUi(el, firebase.app(), firebaseuiApp, signInSuccess);
     };
 
     return (
       <StyledDiv>
         <p>Please sign in to continue.</p>
-        <div ref={mountFirebaseUi} />
+        <div ref={mount} />
       </StyledDiv>
     );
   }
@@ -86,11 +73,12 @@ class Signin extends React.Component {
 
 export default compose(
   connect(
-    null,
+    store => ({ user: store.auth.user }),
     dispatch => ({
       push: path => dispatch(pushAction(path)),
       userLogin: (user, error) => dispatch(userLoginAction(user, error)),
     }),
   ),
+  withFirebase,
   withRouter,
 )(Signin);

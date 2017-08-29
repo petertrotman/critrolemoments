@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import MomentsSvg from 'feather-icons/dist/icons/heart.svg';
-import ExploreSvg from 'feather-icons/dist/icons/aperture.svg';
-import AddSvg from 'feather-icons/dist/icons/plus-circle.svg';
+import HeartSvg from 'feather-icons/dist/icons/heart.svg';
+import ApertureSvg from 'feather-icons/dist/icons/aperture.svg';
+import PlusCircleSvg from 'feather-icons/dist/icons/plus-circle.svg';
 import SettingsSvg from 'feather-icons/dist/icons/settings.svg';
 
 import NavItem from './NavItem';
@@ -31,9 +31,9 @@ const StyledNav = styled.nav`
 const Nav = props => (
   <StyledNav {...props}>
     <ul>
-      <NavItem name="Moments" Icon={MomentsSvg} to="/moments" />
-      <NavItem name="Explore" Icon={ExploreSvg} to="/explore" />
-      <NavItem name="Add" Icon={AddSvg} to="/add" />
+      <NavItem name="Moments" Icon={HeartSvg} to="/moments" />
+      <NavItem name="Explore" Icon={ApertureSvg} to="/explore" />
+      <NavItem name="Add" Icon={PlusCircleSvg} to="/add" />
       <NavItem name="Settings" Icon={SettingsSvg} to="/settings" />
     </ul>
   </StyledNav>

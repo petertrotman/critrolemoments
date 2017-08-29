@@ -5,8 +5,8 @@ import firebase from 'firebase/app';
 import 'firebase/database';
 import 'firebase/auth';
 
-// import firebaseui from 'firebaseui';
-// import 'firebaseui/dist/firebaseui.css';
+import firebaseui from 'firebaseui';
+import 'firebaseui/dist/firebaseui.css';
 
 export function initFirebase() {
   return firebase.initializeApp({
@@ -19,14 +19,15 @@ export function initFirebase() {
   });
 }
 
-// export function initFirebaseUi(firebaseApp) {
-//   return new firebaseui.auth.AuthUI(firebaseApp.auth());
-// }
+export function initFirebaseui(firebaseApp) {
+  return new firebaseui.auth.AuthUI(firebaseApp.auth());
+}
 
 class FirebaseProvider extends React.Component {
   getChildContext() {
     return {
       firebaseApp: this.props.firebaseApp,
+      firebaseuiApp: this.props.firebaseuiApp,
     };
   }
 
@@ -40,11 +41,17 @@ export const firebaseuiAppType = PropTypes.shape({});
 
 FirebaseProvider.propTypes = {
   firebaseApp: firebaseAppType.isRequired,
+  firebaseuiApp: firebaseuiAppType,
   children: PropTypes.node.isRequired,
+};
+
+FirebaseProvider.defaultProps = {
+  firebaseuiApp: undefined,
 };
 
 FirebaseProvider.childContextTypes = {
   firebaseApp: firebaseAppType,
+  firebaseuiApp: firebaseuiAppType,
 };
 
 export { FirebaseProvider };
@@ -54,11 +61,13 @@ const withFirebase = (Component) => {
     <Component
       {...props}
       firebaseApp={context.firebaseApp}
+      firebaseuiApp={context.firebaseuiApp}
     />
   );
 
   FirebaseComponent.contextTypes = {
     firebaseApp: firebaseAppType,
+    firebaseuiApp: firebaseuiAppType,
   };
 
   FirebaseComponent.displayName =

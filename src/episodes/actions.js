@@ -1,4 +1,4 @@
-import firebase from 'firebase';
+import firebase from 'firebase/app';
 
 export const EPISODES_REQUEST_EPISODES = 'EPISODES_REQUEST_EPISODES';
 export const EPISODES_RECEIVE_EPISODES = 'EPISODES_RECEIVE_EPISODES';

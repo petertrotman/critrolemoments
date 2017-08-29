@@ -1,4 +1,6 @@
-import firebase from 'firebase';
+import firebase from 'firebase/app';
+
+import { parseMomentsSnapshot } from '../moments/util';
 
 export const EXPLORE_REQUEST_MOMENTS = 'EXPLORE_REQUEST_MOMENTS';
 export const EXPLORE_RECEIVE_MOMENTS = 'EXPLORE_RECEIVE_MOMENTS';
@@ -30,16 +32,8 @@ export function requestMoments(options) {
       .orderByChild(opts.orderBy)
       .limitToLast(10)
       .once('value', (snapshot) => {
-        if (!snapshot.exists()) {
-          dispatch(receiveMoments(null));
-          return;
-        }
-
-        const byId = snapshot.val();
-        const order = [];
-        snapshot.forEach((childSnapshot) => { order.push(childSnapshot.key); });
-
-        dispatch(receiveMoments({ byId, order }));
+        const data = parseMomentsSnapshot(snapshot);
+        dispatch(receiveMoments(data));
       });
   };
 }

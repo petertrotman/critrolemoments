@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { compose } from 'redux';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 import { Route } from 'react-router-dom';
 
 import Layout from './layout/Layout';
@@ -47,7 +49,10 @@ class App extends React.Component {
   }
 }
 
-export default connect(
-  store => ({ store }),
-  dispatch => ({ dispatch }),
+export default compose(
+  withRouter,
+  connect(
+    store => ({ store }),
+    dispatch => ({ dispatch }),
+  ),
 )(App);

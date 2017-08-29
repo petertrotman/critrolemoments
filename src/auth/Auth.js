@@ -1,15 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Route, withRouter } from 'react-router';
+import { Route, Switch, withRouter } from 'react-router';
 
 import Signin from './Signin';
 import Signout from './Signout';
 
 const Auth = ({ match }) => (
-  <div>
+  <Switch>
     <Route path={`${match.path}/signin`} component={Signin} />
     <Route path={`${match.path}/signout`} component={Signout} />
-  </div>
+  </Switch>
 );
 
 Auth.propTypes = {
