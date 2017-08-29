@@ -1,10 +1,10 @@
 function updateStarCount(db, key, updateCount) {
   const ref = db.ref(`/moments/${key}/starCount`);
-  ref
+  return ref
     .once('value')
     .then((snapshot) => {
       const newCount = (snapshot.val() || 0) + updateCount;
-      ref.set(newCount);
+      return ref.set(newCount);
     });
 }
 

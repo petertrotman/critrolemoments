@@ -30,9 +30,18 @@ export function requestMoments() {
       .map(key => ref
         .child(key)
         .once('value')
-        .then(snapshot => snapshot.val()));
+        .then(snapshot => snapshot));
     Promise.all(promises)
-      .then(data => dispatch(receiveMoments(data)))
+      .then((snapshots) => {
+        const byId = snapshots.reduce((acc, snapshot) => ({
+          ...acc,
+          [snapshot.key]: { ...snapshot.val(), key: snapshot.key },
+        }), {});
+        const order = Object.entries(byId)
+          .sort((a, b) => a[1].timestamp - b[1].timestamp)
+          .map(entry => entry[0]);
+        dispatch(receiveMoments({ byId, order }));
+      })
       .catch(err => dispatch(receiveMoments(null, err)));
   };
 

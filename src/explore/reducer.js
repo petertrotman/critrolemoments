@@ -53,6 +53,8 @@ export default function reducer(state = defaultState, action) {
     case USER_RECEIVE_STAR: {
       if (action.error) return state;
       const key = action.payload.moment;
+      if (!state.byId[key]) return state;
+
       return update(state, {
         byId: {
           [key]: {

@@ -5,7 +5,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { push as pushAction } from 'react-router-redux';
-import { ellipsis, lighten } from 'polished';
+import { lighten } from 'polished';
 
 import HeartSvg from 'feather-icons/dist/icons/heart.svg';
 
@@ -16,38 +16,39 @@ import { mobileView, desktopView } from '../layout/util';
 
 /* eslint-disable indent */
 const StyledDiv = styled.div`
-  width: 95%;
-  // max-width: ${props => props.theme.maxWidth * 0.9}px;
-  // height: ${props => props.theme.momentSummaryHeight}px;
-  height: 3em;
+  width: calc(100% - 2em);
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
   justify-content: flex-start;
 
   margin: 0.5em 0;
-  box-shadow: 0px 0px 10px #AAA;
+  padding: 0.5em;
+  box-shadow: 2px 2px 8px #AAA;
+  border-radius: 5px;
 
-  ${desktopView} {
-    font-size: 1.6em;
-  }
+  // ${desktopView} {
+  //   font-size: 1.6em;
+  // }
 
-  > * {
-    margin: 0 0.2em;
-    padding: 0;
-  }
-
-  span {
-    ${ellipsis()};
+  div.top {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
   }
 
   div.heart {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: flex-start;
+    padding: 0.1em;
+    margin-right: 1em;
 
     span {
-      font-size: 0.5em;
+      font-size: 0.8em;
     }
 
     svg {
@@ -67,11 +68,9 @@ const StyledDiv = styled.div`
 
       stroke: ${props => (props.starred
         ? props.theme.accent
-        : props.color)};
+        : props.theme.color)};
 
-      filter: ${props => (props.starred
-        ? 'drop-shadow(0 0 10px #AAA)'
-        : 'none')};
+      // filter: ${props => (props.starred ? 'drop-shadow(0 0 10px #AAA)' : 'none')};
 
       @media (hover) {
         :hover {
@@ -81,6 +80,15 @@ const StyledDiv = styled.div`
     }
   }
 
+  div.title {
+    // width: 100%;
+    cursor: pointer;
+  }
+
+
+  div.controls {
+    display: ${props => (props.expanded ? 'inline' : 'none')};
+  }
 `;
 /* eslint-enable indent */
 
@@ -138,6 +146,11 @@ class Moment extends React.Component {
     this.props.requestStar(this.props.moment.key);
   }
 
+  titleClickHandler(e) {
+    e.preventDefault();
+    this.setState({ expanded: !this.state.expanded });
+  }
+
   render() {
     return (
       <StyledDiv
@@ -146,11 +159,43 @@ class Moment extends React.Component {
         starred={this.starred}
         starring={this.starring}
       >
-        <div className="heart">
-          <HeartSvg onClick={(e) => { this.heartClickHandler(e); }} />
-          <span>{ this.props.moment.starCount }</span>
+        <div className="top">
+          <div className="heart">
+            <HeartSvg onClick={(e) => { this.heartClickHandler(e); }} role="button" />
+            <span>{ this.props.moment.starCount }</span>
+          </div>
+          <div
+            className="title"
+            onClick={(e) => { this.titleClickHandler(e); }}
+            role="button"
+            tabIndex={0}
+          >
+            <span>{ this.props.moment.title }</span>
+          </div>
         </div>
-        <span>{ this.props.moment.title }</span>
+        <div className="controls">
+          .<br />
+          .<br />
+          .<br />
+          .<br />
+          .<br />
+          .<br />
+          .<br />
+          .<br />
+          .<br />
+          .<br />
+          .<br />
+          .<br />
+          .<br />
+          .<br />
+          .<br />
+          .<br />
+          .<br />
+          .<br />
+          .<br />
+          .<br />
+          .<br />
+        </div>
       </StyledDiv>
     );
   }

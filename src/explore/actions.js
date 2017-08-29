@@ -40,7 +40,7 @@ export function requestMoments(opts) {
       .database()
       .ref('/moments')
       .orderByChild(options.orderBy)
-      .limitToLast(10)
+      .limitToLast(20)
       .once('value')
       .then((snapshot) => {
         const data = parseMomentsSnapshot(snapshot);

@@ -20,6 +20,7 @@ export default function reducer(state = defaultState, action) {
         isFetching: true,
       };
     }
+
     case MOMENTS_RECEIVE_MOMENTS: {
       if (action.error) {
         return {
@@ -43,6 +44,7 @@ export default function reducer(state = defaultState, action) {
         hasFetched: true,
       };
     }
+
     default:
       return state;
   }
