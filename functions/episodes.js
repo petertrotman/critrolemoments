@@ -34,7 +34,7 @@ function fetchEpisodes() {
 }
 
 function updateEpisodes(db) {
-  const MIN_TIME_BETWEEN_UPDATES = 1000 * 60 * 60 * 1; // 1 hour
+  const MIN_TIME_BETWEEN_UPDATES = 1000 * 60 * 60 * 0.5; // 1/2 hour
   db.ref('/episodes/timestamp').once('value', (snapshot) => {
     const prev = snapshot.val() || 0;
     const time = Date.now() - prev;
