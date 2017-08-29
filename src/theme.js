@@ -1,3 +1,5 @@
+import 'sweetalert2/dist/sweetalert2.min.css';
+
 export default {
   background: '#F9F9F9',
   maxWidth: 1024,

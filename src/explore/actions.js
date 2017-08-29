@@ -31,7 +31,8 @@ export function requestMoments(options) {
       .ref('/moments')
       .orderByChild(opts.orderBy)
       .limitToLast(10)
-      .once('value', (snapshot) => {
+      .once('value')
+      .then((snapshot) => {
         const data = parseMomentsSnapshot(snapshot);
         dispatch(receiveMoments(data));
       });

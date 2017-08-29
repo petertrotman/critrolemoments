@@ -30,7 +30,8 @@ export function requestMoments() {
       .ref('/moments')
       .orderByChild(`starredBy/${user.uid}`)
       .equalTo(true)
-      .once('value', (snapshot) => {
+      .once('value')
+      .then((snapshot) => {
         const data = parseMomentsSnapshot(snapshot);
         dispatch(receiveMoments(data));
       });
