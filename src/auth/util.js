@@ -23,19 +23,3 @@ export function mountFirebaseUi(node, firebaseApp, firebaseuiApp, callbacks) {
   });
 }
 
-export function signInSwal(push, location) {
-  swal({
-    title: 'Please sign in to do that',
-    type: 'warning',
-    showCancelButton: true,
-    confirmButtonText: 'Sign in',
-    preConfirm: () => new Promise((resolve) => {
-      const next = encodeURIComponent(`${location.pathname}${location.search}`);
-      resolve(push({
-        pathname: '/auth/signin',
-        search: `?next=${next}`,
-        state: { next },
-      }));
-    }),
-  }).catch(swal.noop);
-}

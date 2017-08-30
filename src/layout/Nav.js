@@ -33,7 +33,7 @@ const Nav = props => (
     <ul>
       <NavItem name="Moments" Icon={HeartSvg} to="/moments" />
       <NavItem name="Explore" Icon={ApertureSvg} to="/explore" />
-      <NavItem name="Add" Icon={PlusCircleSvg} to="/add" />
+      <NavItem name="Create" Icon={PlusCircleSvg} to="/create" />
       <NavItem name="Settings" Icon={SettingsSvg} to="/settings" />
     </ul>
   </StyledNav>

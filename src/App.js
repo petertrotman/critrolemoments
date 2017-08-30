@@ -10,7 +10,7 @@ import Layout from './layout/Layout';
 import Home from './home/Home';
 import Moments from './moments/Moments';
 import Explore from './explore/Explore';
-import Add from './add/Add';
+import Create from './create/Create';
 import Settings from './settings/Settings';
 import Auth from './auth/Auth';
 
@@ -43,7 +43,7 @@ class App extends React.Component {
         <Route exact path="/" component={Home} />
         <Route path="/moments" component={Moments} />
         <Route path="/explore" component={Explore} />
-        <Route path="/add" component={Add} />
+        <Route path="/create" component={Create} />
         <Route path="/settings" component={Settings} />
         <Route path="/auth" component={Auth} />
       </Layout>

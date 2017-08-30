@@ -13,8 +13,8 @@ import MomentMain from './MomentMain';
 
 import { requestStar } from '../user/actions';
 import { momentType } from './util';
-import { signInSwal } from '../auth/util';
-import { mobileView, desktopView } from '../layout/util';
+import { signInSwal } from '../swal/swal';
+import { desktopView } from '../layout/util';
 
 /* eslint-disable indent */
 const Container = styled.div`

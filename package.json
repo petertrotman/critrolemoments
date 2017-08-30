@@ -61,6 +61,7 @@
     "webpack-dev-server": "^2.7.1"
   },
   "dependencies": {
+    "copy-to-clipboard": "^3.0.8",
     "css-loader": "^0.28.5",
     "feather-icons": "^3.2.2",
     "firebase": "^4.3.0",

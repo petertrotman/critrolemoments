@@ -56,7 +56,7 @@ class Moments extends React.Component {
         .map(key => this.props.moments.byId[key])
         .filter(m => m !== undefined);
 
-      if (!starredMoments) {
+      if (!starredMoments || starredMoments.length === 0) {
         return (
           <Aux>
             <p>This is where your saved moments will appear.</p>
@@ -81,11 +81,11 @@ class Moments extends React.Component {
         .map(key => this.props.moments.byId[key])
         .filter(m => m !== undefined);
 
-      if (!ownedMoments) {
+      if (!ownedMoments || ownedMoments.length === 0) {
         return (
           <Aux>
             <p>This is where the moments that you have submitted will appear.</p>
-            <p>You can add your own moments for people to enjoy by clicking <Link to="/add">here.</Link></p>
+            <p>You can add your own moments for other people to enjoy <Link to="/create">here.</Link></p>
           </Aux>
         );
       }
