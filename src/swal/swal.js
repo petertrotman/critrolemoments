@@ -71,6 +71,7 @@ export function reportSwal(moment) {
         'Inappropriate Language': 'Inappropriate Language',
         'Abusive Language': 'Abusive Language',
         'Incorrect Details': 'Incorrect Details',
+        Spoilers: 'Spoilers',
         Other: 'Other',
       },
       inputValidator: input => new Promise((resolve, reject) => {

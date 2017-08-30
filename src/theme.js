@@ -1,3 +1,5 @@
+import 'react-select/dist/react-select.css';
+
 export default {
   background: '#F9F9F9',
   maxWidth: 1024,

@@ -27,6 +27,7 @@ const FixedTop = styled.div`
   width: 100%;
   max-width: ${props => props.theme.maxWidth}px;
   position: fixed;
+  z-index: 999;
   top: 0;
 `;
 
@@ -57,6 +58,7 @@ const MobileNav = styled(Nav)`
   width: 100%;
   max-width: ${props => props.theme.maxWidth}px;
   position: fixed;
+  z-index: 999;
   bottom: 0;
 
   ${desktopView} {

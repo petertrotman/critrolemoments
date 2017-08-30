@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
@@ -43,6 +43,27 @@ const Top = styled.div`
   justify-content: flex-start;
 `;
 
+// const heartFlash = props => // eslint-disable-line no-unused-vars
+// keyframes`
+//   from, 40% {
+//     stroke: none;
+//   }
+
+//   to, 41% {
+//     stroke: props.theme.accent;
+//   }
+// `;
+
+const heartFlash = keyframes`
+  from, to {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.3);
+  }
+`;
+
 const Heart = styled.div`
   display: flex;
   flex-direction: column;
@@ -74,7 +95,12 @@ const Heart = styled.div`
       ? props.theme.accent
     : props.theme.color)};
 
-    // filter: ${props => (props.starred ? 'drop-shadow(0 0 10px #AAA)' : 'none')};
+    filter: ${props => (props.starred ? 'drop-shadow(0 0 10px #AAA)' : 'none')};
+
+    animation: ${props => (props.starred && props.clicked && !props.starring
+      ? `${heartFlash} 0.3s ease-in-out 1`
+      : 'none')};
+    transform-origin: 50% 50%;
 
     @media (hover) {
       :hover {
@@ -118,6 +144,7 @@ class Moment extends React.Component {
     super(props);
     this.state = {
       expanded: props.expanded,
+      heartClicked: false,
     };
   }
 
@@ -141,6 +168,7 @@ class Moment extends React.Component {
       return;
     }
 
+    this.setState({ heartClicked: true });
     this.props.requestStar(this.props.moment.key);
   }
 
@@ -153,7 +181,7 @@ class Moment extends React.Component {
     return (
       <Container>
         <Top>
-          <Heart starred={this.starred} starring={this.starring}>
+          <Heart starred={this.starred} starring={this.starring} clicked={this.state.heartClicked}>
             <HeartSvg onClick={(e) => { this.heartClickHandler(e); }} role="button" />
             <span>{ this.props.moment.starCount }</span>
           </Heart>
