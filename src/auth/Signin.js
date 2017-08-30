@@ -8,11 +8,13 @@ import { withRouter } from 'react-router-dom';
 import firebase from 'firebase/app';
 import queryString from 'query-string';
 
+import Loading from '../loading/Loading';
+
 import { withFirebase, firebaseuiAppType } from '../firebase';
 import { userLogin as userLoginAction } from './actions';
 import { mountFirebaseUi } from './util';
 
-const StyledDiv = styled.div`
+const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -30,6 +32,14 @@ class Signin extends React.Component {
   static defaultProps = {
     user: null,
   };
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      showLoading: true,
+      uiShown: false,
+    };
+  }
 
   componentWillMount() {
     const user = firebase.app().auth().currentUser || this.props.loggedIn;
@@ -59,15 +69,22 @@ class Signin extends React.Component {
       push(next || redirectUrl);
     };
 
+    const uiShown = () => this.setState({
+      uiShown: true,
+      showLoading: false,
+    });
+
     const mount = (el) => {
-      mountFirebaseUi(el, firebase.app(), firebaseuiApp, signInSuccess);
+      if (!el || this.state.uiShown) return;
+      mountFirebaseUi(el, firebase.app(), firebaseuiApp, { signInSuccess, uiShown });
     };
 
     return (
-      <StyledDiv>
+      <Container>
         <p>Please sign in to continue.</p>
         <div ref={mount} />
-      </StyledDiv>
+        { this.state.showLoading && <Loading width="50%" /> }
+      </Container>
     );
   }
 }

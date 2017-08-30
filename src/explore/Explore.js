@@ -4,10 +4,22 @@ import styled from 'styled-components';
 import { connect } from 'react-redux';
 
 import MomentList from '../moments/MomentList';
+import Loading from '../loading/Loading';
 
 import { requestMoments } from './actions';
 
-const StyledDiv = styled.div`
+const Container = styled.div`
+`;
+
+const LoadingContainer = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  > * {
+    width: 50%;
+  }
 `;
 
 class Explore extends React.Component {
@@ -25,17 +37,20 @@ class Explore extends React.Component {
   }
 
   render() {
-    if (this.props.explore.isFetching) {
-      return <p>Loading...</p>;
-    }
     const moments = this.props.explore.order
       .map(key => this.props.explore.byId[key]);
 
     return (
-      <StyledDiv>
+      <Container>
         <h1>Explore</h1>
-        <MomentList moments={moments} />
-      </StyledDiv>
+        { this.props.explore.isFetching
+          ? (
+            <LoadingContainer>
+              <Loading />
+            </LoadingContainer>
+          )
+          : <MomentList moments={moments} /> }
+      </Container>
     );
   }
 }
