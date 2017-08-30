@@ -42,11 +42,6 @@ unsubscribeAuth = firebaseApp // eslint-disable-line prefer-const
     unsubscribeAuth();
   });
 
-// Fix for YouTube postMessage error
-// window.YTConfig = {
-//   host: 'https://www.youtube.com',
-// };
-
 const render = (Component) => {
   ReactDOM.render(
     <AppContainer>

@@ -17,7 +17,7 @@ import { signInSwal } from '../auth/util';
 import { mobileView, desktopView } from '../layout/util';
 
 /* eslint-disable indent */
-const StyledDiv = styled.div`
+const Container = styled.div`
   width: calc(100% - 2em);
   display: flex;
   flex-direction: column;
@@ -33,59 +33,60 @@ const StyledDiv = styled.div`
     font-size: 1.2em;
   }
 
-  div.top {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    justify-content: flex-start;
+`;
+
+const Top = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+`;
+
+const Heart = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0.1em;
+  margin-right: 1em;
+
+  span {
+    font-size: 0.8em;
   }
 
-  div.heart {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    padding: 0.1em;
-    margin-right: 1em;
+  svg {
+    height: 2em;
+    width: 2em;
+    min-width: 2em;
 
-    span {
-      font-size: 0.8em;
-    }
-
-    svg {
-      height: 2em;
-      width: 2em;
-      min-width: 2em;
-
-      cursor: pointer;
-      fill: ${(props) => {
+    cursor: pointer;
+    fill: ${(props) => {
         if (props.starring) {
           return lighten(0.4, props.theme.primary);
-        } else if (props.starred) {
+          } else if (props.starred) {
           return lighten(0.2, props.theme.primary);
         }
         return 'none';
       }};
 
-      stroke: ${props => (props.starred
-        ? props.theme.accent
-        : props.theme.color)};
+    stroke: ${props => (props.starred
+      ? props.theme.accent
+    : props.theme.color)};
 
-      // filter: ${props => (props.starred ? 'drop-shadow(0 0 10px #AAA)' : 'none')};
+    // filter: ${props => (props.starred ? 'drop-shadow(0 0 10px #AAA)' : 'none')};
 
-      @media (hover) {
-        :hover {
-          fill: ${props => lighten(0.4, props.theme.primary)};
-        }
+    @media (hover) {
+      :hover {
+        fill: ${props => lighten(0.4, props.theme.primary)};
       }
     }
   }
+`;
 
-  div.title {
-    width: 100%;
-    cursor: pointer;
-  }
+const Title = styled.div`
+  width: 100%;
+  cursor: pointer;
 `;
 /* eslint-enable indent */
 
@@ -150,28 +151,22 @@ class Moment extends React.Component {
 
   render() {
     return (
-      <StyledDiv
-        expanded={this.state.expanded}
-        owned={this.owned}
-        starred={this.starred}
-        starring={this.starring}
-      >
-        <div className="top">
-          <div className="heart">
+      <Container>
+        <Top>
+          <Heart starred={this.starred} starring={this.starring}>
             <HeartSvg onClick={(e) => { this.heartClickHandler(e); }} role="button" />
             <span>{ this.props.moment.starCount }</span>
-          </div>
-          <div
-            className="title"
+          </Heart>
+          <Title
             onClick={(e) => { this.titleClickHandler(e); }}
             role="button"
             tabIndex={0}
           >
             <span>{ this.props.moment.title }</span>
-          </div>
-        </div>
-        { this.state.expanded && <MomentMain /> }
-      </StyledDiv>
+          </Title>
+        </Top>
+        { this.state.expanded && <MomentMain moment={this.props.moment} /> }
+      </Container>
     );
   }
 }

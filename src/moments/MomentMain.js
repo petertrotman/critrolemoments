@@ -1,36 +1,72 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-import YouTube from 'react-youtube';
+import Share2Svg from 'feather-icons/dist/icons/share-2.svg';
+import CopySvg from 'feather-icons/dist/icons/copy.svg';
 
-const StyledDiv = styled.div`
+import Player from '../player/Player';
+
+import { momentType, timestampToSeconds } from './util';
+
+const Container = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-top: 0.5em;
+`;
+
+const Buttons = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: flex-end;
+  margin: 0.4em 0;
+
+  > span {
+    padding: 0 0.2em;
+    margin: 0 0.2em;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    > * {
+      margin: 0 0.2em;
+    }
+  }
 `;
 
 class MomentMain extends React.Component {
-  registerPlayer(e) {
-    this.player = e.target;
-    console.log(this.player);
+  static propTypes = {
+    moment: momentType.isRequired,
   }
 
   render() {
     const opts = {
-      height: '390',
-      width: '640',
       playerVars: { // https://developers.google.com/youtube/player_parameters
+        start: timestampToSeconds(this.props.moment.start),
+        end: timestampToSeconds(this.props.moment.end),
         autoplay: 1,
+        modestbranding: true,
+        showinfo: 0,
       },
     };
 
     return (
-      <StyledDiv>
-        <YouTube
-          videoId="dQw4w9WgXcQ"
+      <Container>
+        <Player
+          videoId={this.props.moment.episode}
           opts={opts}
-          onReady={(e) => { this.registerPlayer(e); }}
-          onError={console.error}
         />
-      </StyledDiv>
+        <Buttons>
+          <span>
+            <CopySvg /><span>Create a copy</span>
+          </span>
+          <span>
+            <Share2Svg /><span>Share</span>
+          </span>
+        </Buttons>
+      </Container>
     );
   }
 }
