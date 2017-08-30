@@ -18,7 +18,7 @@ import { mobileView, desktopView } from '../layout/util';
 
 /* eslint-disable indent */
 const Container = styled.div`
-  width: calc(100% - 2em);
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;

@@ -48,7 +48,7 @@ const Header = () => (
   <StyledHeader>
     <StyledTitle>
       <Link to="/">
-        <img src="/images/critrolemoments.png" alt="" />
+        <img src="/images/critrolemoments.svg" alt="" />
         Critical Role Moments
       </Link>
     </StyledTitle>
