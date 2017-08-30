@@ -1,11 +1,11 @@
 /* eslint no-console: ["error", { allow: ["error"] }] */
 const fetch = require('node-fetch');
 
-function fetchEpisodes() {
+function fetchEpisodes(youtubeApiKey) {
   function episodesUrl(pageToken) {
     return [
       'https://www.googleapis.com/youtube/v3/playlistItems?',
-      'key=AIzaSyAYqs9SZ3hBYhT_MGvDcCaFy2_3WokosQU&',
+      `key=${youtubeApiKey}&`,
       'playlistId=PL7atuZxmT954bCkC062rKwXTvJtcqFB8i&',
       'part=snippet&',
       'maxResults=50&',
@@ -33,7 +33,7 @@ function fetchEpisodes() {
   return fetchRecursively([], null, false);
 }
 
-function updateEpisodes(db) {
+function updateEpisodes(db, youtubeApiKey) {
   const MIN_TIME_BETWEEN_UPDATES = 1000 * 60 * 60 * 0.5; // 1/2 hour
   db.ref('/cron/episodes/last').once('value', (snapshot) => {
     const prev = snapshot.val() || 0;
@@ -42,7 +42,7 @@ function updateEpisodes(db) {
       console.error(`called too frequently, min time: ${MIN_TIME_BETWEEN_UPDATES}; actual time: ${time}`);
       return;
     }
-    fetchEpisodes()
+    fetchEpisodes(youtubeApiKey)
       .then((episodes) => {
         db.ref('/episodes').set(episodes.reduce((acc, episode) =>
           Object.assign(acc, { [episode.snippet.resourceId.videoId]: episode }), {}));

@@ -8,7 +8,7 @@ const moments = require('./moments.js');
 admin.initializeApp(functions.config().firebase);
 
 exports.hourly = functions.pubsub.topic('hourly-tick').onPublish(() => {
-  episodes.update(admin.database());
+  episodes.update(admin.database(), functions.config().youtube.key);
 });
 
 exports.addStar = functions.database.ref('/users/{uid}/starredMoments/{key}')
