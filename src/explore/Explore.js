@@ -45,7 +45,6 @@ class Explore extends React.Component {
     if (this.props.explore.isFetching) {
       return (
         <Container>
-          <h2>Explore</h2>
           <Filters />
           <LoadingContainer>
             <Loading />
@@ -59,17 +58,12 @@ class Explore extends React.Component {
 
     return (
       <Container>
-        <h2>Explore</h2>
         <Filters />
         <MomentList moments={moments} />
       </Container>
     );
   }
 }
-
-// Explore.propTypes = {
-//   dispatch: PropTypes.func.isRequired,
-// };
 
 export default connect(
   store => ({ explore: store.explore }),

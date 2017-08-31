@@ -3,6 +3,7 @@ import update from 'immutability-helper';
 import {
   EXPLORE_REQUEST_MOMENTS,
   EXPLORE_RECEIVE_MOMENTS,
+  EXPLORE_UPDATE_OPTIONS,
 } from './actions';
 import { USER_RECEIVE_STAR } from '../user/actions';
 
@@ -10,12 +11,15 @@ const defaultState = {
   byId: {},
   order: [],
   options: {
-    orderBy: 'new',
-    episodesFilter: [],
+    orderBy: 'timestamp',
+    episodes: [],
+    limit: 20,
+    force: false,
   },
   error: null,
   isFetching: false,
   hasFetched: false,
+  fetchedWithOptions: {},
 };
 
 export default function reducer(state = defaultState, action) {
@@ -45,6 +49,7 @@ export default function reducer(state = defaultState, action) {
           error: null,
           isFetching: false,
           hasFetched: true,
+          fetchedWithOptions: { ...state.options },
         };
       }
       return {
@@ -54,6 +59,7 @@ export default function reducer(state = defaultState, action) {
         error: null,
         isFetching: false,
         hasFetched: true,
+        fetchedWithOptions: { ...state.options },
       };
     }
 
@@ -71,6 +77,16 @@ export default function reducer(state = defaultState, action) {
           },
         },
       });
+    }
+
+    case EXPLORE_UPDATE_OPTIONS: {
+      return {
+        ...state,
+        options: {
+          ...state.options,
+          ...action.payload.options,
+        },
+      };
     }
 
     default:

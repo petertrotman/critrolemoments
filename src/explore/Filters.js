@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 
 import Select from 'react-select';
 
+import { updateOptions as updateOptionsAction } from './actions';
 import { mobileView } from '../layout/util';
 
 const FiltersContainer = styled.div`
@@ -34,14 +35,24 @@ class Filters extends React.Component {
       byId: PropTypes.shape({}),
       order: PropTypes.arrayOf(PropTypes.string),
     }).isRequired,
+    options: PropTypes.shape({
+      orderBy: PropTypes.oneOf(['timestamp', 'starCount']).isRequired,
+      episodes: PropTypes.arrayOf(PropTypes.string).isRequired,
+    }).isRequired,
+    updateOptions: PropTypes.func.isRequired,
   }
 
-  handleOrderBySelect(val) {
-    console.log(val);
+  handleOrderBySelect(newOption) {
+    this.props.updateOptions({
+      orderBy: newOption.value,
+    });
   }
 
-  handleEpisodeSelect(val) {
-    console.log(val);
+  handleEpisodeSelect(newOptions) {
+    this.props.updateOptions({
+      // episodes: this.props.options.episodes.concat(newOptions.map(o => o.value)),
+      episodes: newOptions.map(o => o.value),
+    });
   }
 
   render() {
@@ -50,20 +61,27 @@ class Filters extends React.Component {
         <div>
           <span>Sort by:</span>
           <Select
-            value="new"
+            name="order-by"
+            searchable={false}
+            value={this.props.options.orderBy}
             options={[
-              { value: 'new', label: 'Newest' },
-              { value: 'stars', label: 'Most Loved' },
+              { value: 'timestamp', label: 'Newest' },
+              { value: 'starCount', label: 'Most Loved' },
             ]}
-            onChange={val => this.handleOrderBySelect(val)}
+            onChange={newOption => this.handleOrderBySelect(newOption)}
           />
         </div>
         <div>
           <span>Filter by episode:</span>
           <Select
-            value={null}
+            multi
+            name="episodes-filter"
+            searchable={false}
+            value={this.props.options.episodes.map(key =>
+              ({ value: key, label: this.props.episodes.byId[key].snippet.title }))}
             options={this.props.episodes.order.map(key =>
-              ({ value: key, label: this.props.episodes.byId[key].title }))}
+              ({ value: key, label: this.props.episodes.byId[key].snippet.title }))}
+            onChange={newOptions => this.handleEpisodeSelect(newOptions)}
           />
         </div>
       </FiltersContainer>
@@ -75,6 +93,10 @@ export default compose(
   connect(
     store => ({
       episodes: store.episodes,
+      options: store.explore.options,
+    }),
+    dispatch => ({
+      updateOptions: options => dispatch(updateOptionsAction(options)),
     }),
   ),
 )(Filters);
