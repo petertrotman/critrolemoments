@@ -9,7 +9,10 @@ import { USER_RECEIVE_STAR } from '../user/actions';
 const defaultState = {
   byId: {},
   order: [],
-  options: {},
+  options: {
+    orderBy: 'new',
+    episodesFilter: [],
+  },
   error: null,
   isFetching: false,
   hasFetched: false,
@@ -36,7 +39,11 @@ export default function reducer(state = defaultState, action) {
       }
       if (!action.payload.data) {
         return {
-          ...defaultState,
+          ...state,
+          byId: {},
+          order: [],
+          error: null,
+          isFetching: false,
           hasFetched: true,
         };
       }

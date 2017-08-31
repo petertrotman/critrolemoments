@@ -75,7 +75,7 @@ export function reportSwal(moment) {
         Other: 'Other',
       },
       inputValidator: input => new Promise((resolve, reject) => {
-        if (!input) reject('You must select a reson');
+        if (!input) reject('You must select a reason.');
         resolve();
       }),
     },

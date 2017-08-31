@@ -10,7 +10,7 @@ import 'firebaseui/dist/firebaseui.css';
 
 export function initFirebase() {
   return firebase.initializeApp({
-    apiKey: 'AIzaSyD04KRJhHIgHDq_O66kORZriJ5ExOLRWbY',
+    apiKey: 'AIzaSyCzGnlp7o5Ul1xUKCSZZ_OGYR6aC2ERFQo',
     authDomain: 'critrolemoments.firebaseapp.com',
     databaseURL: 'https://critrolemoments.firebaseio.com',
     projectId: 'critrolemoments',
