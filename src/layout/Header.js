@@ -26,6 +26,8 @@ const StyledTitle = styled.div`
   overflow: hidden;
   white-space: nowrap;
   max-width: 80%;
+  font-family: 'Cinzel Decorative';
+  font-weight: 600;
 
   > a {
     text-decoration: none;

@@ -39,7 +39,7 @@ const DesktopNav = styled(Nav)`
 
 const Content = styled.div`
   box-sizing: border-box;
-  padding: 0 1em;
+  padding: 0 0.5em;
   margin: 0;
   width: 100%;
   max-width: ${props => props.theme.maxWidth}px;

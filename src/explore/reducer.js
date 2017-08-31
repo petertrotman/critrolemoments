@@ -13,6 +13,7 @@ const defaultState = {
   options: {
     orderBy: 'timestamp',
     episodes: [],
+    lastEpisode: null,
     limit: 20,
     force: false,
   },
