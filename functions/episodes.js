@@ -35,21 +35,23 @@ function fetchEpisodes(youtubeApiKey) {
 
 function updateEpisodes(db, youtubeApiKey) {
   const MIN_TIME_BETWEEN_UPDATES = 1000 * 60 * 60 * 0.5; // 1/2 hour
-  db.ref('/cron/episodes/last').once('value', (snapshot) => {
-    const prev = snapshot.val() || 0;
-    const time = Date.now() - prev;
-    if (time < MIN_TIME_BETWEEN_UPDATES) {
-      console.error(`called too frequently, min time: ${MIN_TIME_BETWEEN_UPDATES}; actual time: ${time}`);
-      return;
-    }
-    fetchEpisodes(youtubeApiKey)
-      .then((episodes) => {
-        db.ref('/episodes').set(episodes.reduce((acc, episode) =>
-          Object.assign(acc, { [episode.snippet.resourceId.videoId]: episode }), {}));
-        db.ref('/cron/episodes/last').set(Date.now());
-      })
-      .catch(console.error);
-  });
+  return db.ref('/cron/episodes/last').once('value')
+    .then((snapshot) => {
+      const prev = snapshot.val() || 0;
+      const time = Date.now() - prev;
+      if (time < MIN_TIME_BETWEEN_UPDATES) {
+        console.error(`called too frequently, min time: ${MIN_TIME_BETWEEN_UPDATES}; actual time: ${time}`);
+        return null;
+      }
+      return fetchEpisodes(youtubeApiKey)
+        .then(episodes => episodes.reduce((acc, episode) =>
+          Object.assign(acc, { [episode.snippet.resourceId.videoId]: episode }), {}))
+        .then(newEpisodes => Promise.all([
+          db.ref('/episodes').set(newEpisodes),
+          db.ref('/cron/episodes/last').set(Date.now()),
+        ]))
+        .catch(console.error);
+    });
 }
 
 exports.fetch = fetchEpisodes;

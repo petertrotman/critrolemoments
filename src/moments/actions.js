@@ -44,16 +44,4 @@ export function requestMoments() {
       })
       .catch(err => dispatch(receiveMoments(null, err)));
   };
-
-  // firebase
-  //   .app()
-  //   .database()
-  //   .ref('/moments')
-  //   .orderByChild(`starredBy/${user.uid}`)
-  //   .equalTo(true)
-  //   .once('value')
-  //   .then((snapshot) => {
-  //     const data = parseMomentsSnapshot(snapshot);
-  //     dispatch(receiveMoments(data));
-  //   });
 }

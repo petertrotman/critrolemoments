@@ -1,55 +1,66 @@
+/* eslint-disable comma-dangle */
+
 const timestampToSeconds = require('./util').timestampToSeconds;
 
+function orderEpisodes(episodesObject) {
+  return Object.keys(episodesObject)
+    .sort((a, b) =>
+      episodesObject[a].snippet.position - episodesObject[b].snippet.position);
+}
+
 function indexMoments(db) {
-  db.ref('/episodes').once('value')
+  return db.ref('/indexes/episodes/byPosition').once('value')
     .then(snapshot => snapshot.val())
-    .then((episodes) => {
-      const orderedEpisodes = Object
-        .keys(episodes)
-        .map(key => [key, episodes[key]])
-        .sort((a, b) => a[1].snippet.position - b[1].snippet.position)
-        .map(entry => entry[0]);
+    .then(orderedEpisodes => db.ref('/moments').once('value')
+      .then(snapshot => snapshot.val())
+      .then((moments) => {
+        const momentsEntries = Object.keys(moments).map(key => [key, moments[key]]);
+        // Now need to use [].concat(momentsEntries) to create a new array each time.
+        // Otherwise it will just sort each time in-place.
 
-      db.ref('/moments').once('value')
-        .then(snapshot => snapshot.val())
-        .then((moments) => {
-          const momentsEntries = Object.keys(moments).map(key => [key, moments[key]]);
+        const byEpisode = [].concat(momentsEntries)
+          .reduce((acc, [key, moment]) => {
+            // return Object.assign(
+            //   {},
+            //   acc,
+            //   { [moment.episode]: Object.assign(
+            //     {},
+            //     acc[moment.episode],
+            //     { [key]: true },
+            //   ) },
+            // );
+            if (!acc[moment.episode]) acc[moment.episode] = {};
+            acc[moment.episode][key] = true;
+            return acc;
+          }, orderedEpisodes.reduce((acc, key) => Object.assign(acc, { [key]: {} }), {}));
 
-          const byEpisode = momentsEntries
-            .reduce((acc, [key, moment]) => {
-              // return Object.assign(
-              //   {},
-              //   acc,
-              //   { [moment.episode]: Object.assign(
-              //     {},
-              //     acc[moment.episode],
-              //     { [key]: true },
-              //   ) },
-              // );
-              if (!acc[moment.episode]) acc[moment.episode] = {};
-              acc[moment.episode][key] = true;
-              return acc;
-            }, orderedEpisodes.reduce((acc, key) => Object.assign(acc, { [key]: {} }), {}));
+        const byTimestamp = [].concat(momentsEntries)
+          .sort((a, b) => a[1].timestamp - b[1].timestamp)
+          .map(entry => entry[0]);
 
-          const byTimestamp = momentsEntries
-            .sort((a, b) => a[1].timestamp - b[1].timestamp)
-            .map(entry => entry[0]);
+        const byStarCount = [].concat(momentsEntries)
+          .sort((a, b) => a[1].starCount - b[1].starCount)
+          .map(entry => entry[0]);
 
-          const byStarCount = momentsEntries
-            .sort((a, b) => a[1].starCount - b[1].starCount)
-            .map(entry => entry[0]);
+        const byStart = [].concat(momentsEntries)
+          .sort((a, b) =>
+            timestampToSeconds(a[1].start) - timestampToSeconds(b[1].start))
+          .sort((a, b) =>
+            orderedEpisodes.indexOf(a[1].episode) - orderedEpisodes.indexOf(b[1].episode))
+          .map(entry => entry[0]);
 
-          const byStart = momentsEntries
-            .sort((a, b) =>
-              timestampToSeconds(a[1].start) - timestampToSeconds(b[1].start))
-            .sort((a, b) =>
-              orderedEpisodes.indexOf(a[1].episode) - orderedEpisodes.indexOf(b[1].episode))
-            .map(entry => entry[0]);
+        return db.ref('/indexes/moments')
+          .set({ byEpisode, byTimestamp, byStarCount, byStart });
+      })
+    );
+}
 
-          db.ref('/indexes/moments')
-            .set({ byEpisode, byTimestamp, byStarCount, byStart });
-        });
-    });
+function indexEpisodes(db) {
+  return db.ref('/episodes').once('value')
+    .then(snapshot => snapshot.val())
+    .then(episodesObject => orderEpisodes(episodesObject))
+    .then(orderedEpisodes => db.ref('/indexes/episodes/byPosition').set(orderedEpisodes));
 }
 
 exports.indexMoments = indexMoments;
+exports.indexEpisodes = indexEpisodes;

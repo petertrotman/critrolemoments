@@ -11,16 +11,18 @@ const defaultState = {
   byId: {},
   order: [],
   options: {
-    orderBy: 'timestamp',
+    order: 'byTimestamp',
     episodes: [],
     lastEpisode: null,
-    limit: 20,
+    limit: 10,
     force: false,
+    page: 0,
   },
   error: null,
   isFetching: false,
   hasFetched: false,
-  fetchedWithOptions: {},
+  fetchedOptions: {},
+  fetchedIndex: [],
 };
 
 export default function reducer(state = defaultState, action) {
@@ -50,7 +52,8 @@ export default function reducer(state = defaultState, action) {
           error: null,
           isFetching: false,
           hasFetched: true,
-          fetchedWithOptions: { ...state.options },
+          fetchedOptions: { ...state.options },
+          fetchedIndex: [],
         };
       }
       return {
@@ -60,7 +63,8 @@ export default function reducer(state = defaultState, action) {
         error: null,
         isFetching: false,
         hasFetched: true,
-        fetchedWithOptions: { ...state.options },
+        fetchedOptions: { ...state.options },
+        fetchedIndex: action.payload.data.index,
       };
     }
 

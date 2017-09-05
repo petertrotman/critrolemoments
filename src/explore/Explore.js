@@ -4,10 +4,11 @@ import styled from 'styled-components';
 import { connect } from 'react-redux';
 
 import Filters from './Filters';
+import Pager from './Pager';
 import MomentList from '../moments/MomentList';
 import Loading from '../loading/Loading';
 
-import { requestMoments } from './actions';
+import { requestMoments as requestMomentsAction } from './actions';
 
 const Container = styled.div`
   width: 100%;
@@ -29,7 +30,7 @@ const LoadingContainer = styled.div`
 
 class Explore extends React.Component {
   static propTypes = {
-    dispatch: PropTypes.func.isRequired,
+    requestMoments: PropTypes.func.isRequired,
     explore: PropTypes.shape({
       byId: PropTypes.object,
       order: PropTypes.arrayOf(PropTypes.string),
@@ -38,7 +39,7 @@ class Explore extends React.Component {
   }
 
   componentWillMount() {
-    this.props.dispatch(requestMoments());
+    this.props.requestMoments();
   }
 
   render() {
@@ -60,6 +61,7 @@ class Explore extends React.Component {
       <Container>
         <Filters />
         <MomentList moments={moments} />
+        <Pager data={this.props.explore} requestMoments={this.props.requestMoments} />
       </Container>
     );
   }
@@ -67,6 +69,6 @@ class Explore extends React.Component {
 
 export default connect(
   store => ({ explore: store.explore }),
-  dispatch => ({ dispatch }),
+  dispatch => ({ requestMoments: opts => dispatch(requestMomentsAction(opts)) }),
 )(Explore);
 

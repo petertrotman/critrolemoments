@@ -102,7 +102,7 @@ class Filters extends React.Component {
       order: PropTypes.arrayOf(PropTypes.string),
     }).isRequired,
     options: PropTypes.shape({
-      orderBy: PropTypes.oneOf(['timestamp', 'starCount']).isRequired,
+      order: PropTypes.oneOf(['byTimestamp', 'byStarCount', 'byStart']).isRequired,
       episodes: PropTypes.arrayOf(PropTypes.string).isRequired,
       lastEpisode: PropTypes.string,
     }).isRequired,
@@ -112,7 +112,7 @@ class Filters extends React.Component {
 
   handleOrderBySelect(newOption) {
     this.props.updateOptions({
-      orderBy: newOption && newOption.value,
+      order: newOption && newOption.value,
     });
   }
 
@@ -167,19 +167,21 @@ class Filters extends React.Component {
             name="order-by"
             searchable={false}
             clearable={false}
-            value={this.props.options.orderBy}
+            value={this.props.options.order}
             options={[
-              { value: 'timestamp', label: 'Newest' },
-              { value: 'starCount', label: 'Most Loved' },
+              { value: 'byTimestamp', label: 'Newest' },
+              { value: 'byStarCount', label: 'Most Loved' },
+              { value: 'byStart', label: 'Chronological' },
             ]}
             onChange={newOption => this.handleOrderBySelect(newOption)}
           />
         </div>
         <div>
-          <label htmlFor="last-episode">No moments after episode:</label>
+          <label htmlFor="last-episode">No moments after episode (to avoid spoilers):</label>
           <Select
             name="last-episode"
             placeholder="Select... (showing all episodes)"
+            searchable={false}
             value={this.props.options.lastEpisode && {
               key: this.props.options.lastEpisode,
               label: this.props.episodes.byId[this.props.options.lastEpisode].snippet.title,
@@ -214,7 +216,7 @@ export default compose(
     }),
     dispatch => ({
       updateOptions: options => dispatch(updateOptionsAction(options)),
-      requestMoments: () => dispatch(requestMomentsAction()),
+      requestMoments: options => dispatch(requestMomentsAction(options)),
     }),
   ),
 )(Filters);

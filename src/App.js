@@ -15,10 +15,12 @@ import Settings from './settings/Settings';
 import Auth from './auth/Auth';
 
 import { requestEpisodes } from './episodes/actions';
+import { requestIndexes } from './indexes/actions';
 import { userLogin } from './auth/actions';
 
 function initData(store, dispatch) {
   if (!store.episodes.hasFetched) dispatch(requestEpisodes());
+  if (!store.indexes.hasFetched) dispatch(requestIndexes());
   const user = firebase.app().auth().currentUser;
   if (user) dispatch(userLogin(user));
 }

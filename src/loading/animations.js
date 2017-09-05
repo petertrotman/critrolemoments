@@ -65,12 +65,12 @@ const beat = keyframes`
 `;
 
 const flash = keyframes`
-  from, 25%, 75%, to {
-    opacity: 0;
+  from, 20%, 80%, to {
+    opacity: 1;
   }
 
-  33%, 66% {
-    opacity: 1;
+  30%, 70% {
+    opacity: 0;
   }
 `;
 
@@ -109,11 +109,11 @@ export const flashAll = Object.keys(parts)
   .filter(key => !['heart', 'middle'].includes(key))
   // .filter(key => key !== 'middle')
   .reduce((acc, part) => {
-    const delay = 0.5 + (Math.random() * 4);
+    const duration = 0.5 + (Math.random() * 4);
     return acc.concat(`
       path#${parts[part].id} {
         transform-origin: ${centroids[part].x}px ${centroids[part].y}px;
-        animation: ${flash} ${delay}s linear infinite;
+        animation: ${flash} ${duration}s linear infinite;
       }
     `);
   }, '');

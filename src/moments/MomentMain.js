@@ -13,7 +13,8 @@ import AlertCircleSvg from 'feather-icons/dist/icons/alert-circle.svg';
 import Player from '../player/Player';
 
 import { signInSwal, reportSwal, shareSwal } from '../swal/swal';
-import { momentType, timestampToSeconds } from './util';
+import { momentType } from '../utils/types';
+import { timestampToSeconds } from '../utils/text';
 
 const Container = styled.div`
   width: 100%;

@@ -12,7 +12,7 @@ import HeartSvg from 'feather-icons/dist/icons/heart.svg';
 import MomentMain from './MomentMain';
 
 import { requestStar } from '../user/actions';
-import { momentType } from './util';
+import { momentType } from '../utils/types';
 import { signInSwal } from '../swal/swal';
 import { desktopView } from '../layout/util';
 

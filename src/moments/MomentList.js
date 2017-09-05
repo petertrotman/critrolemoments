@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 import Moment from './Moment';
-import { momentType } from './util';
+import { momentType } from '../utils/types';
 
 const MomentListDiv = styled.div`
   width: 100%;
