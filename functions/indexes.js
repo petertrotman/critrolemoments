@@ -35,7 +35,7 @@ function indexMoments(db) {
           timestampToSeconds(a[1].start) - timestampToSeconds(b[1].start))
         .map(entry => entry[0]);
 
-      db.ref('/index/moments')
+      db.ref('/indexes/moments')
         .set({ byEpisode, byTimestamp, byStarCount, byStart });
     });
 }
