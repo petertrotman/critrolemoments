@@ -1,3 +1,5 @@
+const timestampToSeconds = require('./util').timestampToSeconds;
+
 function indexMoments(db) {
   db.ref('/moments').once('value')
     .then(snapshot => snapshot.val())
@@ -29,7 +31,8 @@ function indexMoments(db) {
         .map(entry => entry[0]);
 
       const byStart = momentsEntries
-        .sort((a, b) => a[1].start - b[1].start)
+        .sort((a, b) =>
+          timestampToSeconds(a[1].start) - timestampToSeconds(b[1].start))
         .map(entry => entry[0]);
 
       db.ref('/index/moments')
