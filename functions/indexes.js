@@ -26,6 +26,7 @@ function indexMoments(db) {
               //     { [key]: true },
               //   ) },
               // );
+              if (!acc[moment.episode]) acc[moment.episode] = {};
               acc[moment.episode][key] = true;
               return acc;
             }, orderedEpisodes.reduce((acc, key) => Object.assign(acc, { [key]: {} }), {}));
