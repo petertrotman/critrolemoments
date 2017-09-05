@@ -3,7 +3,8 @@ function indexMoments(db) {
     .then(snapshot => snapshot.val())
     .then((moments) => {
       const byEpisode =
-        Object.entries(moments)
+        Object.keys(moments)
+          .map(key => [key, moments[key]])
           .reduce((acc, [key, moment]) => {
             // return Object.assign(
             //   {},
@@ -20,17 +21,20 @@ function indexMoments(db) {
           }, {});
 
       const byTimestamp =
-        Object.entries(moments)
+        Object.keys(moments)
+          .map(key => [key, moments[key]])
           .sort((a, b) => a[1].timestamp - b[1].timestamp)
           .map(entry => entry[0]);
 
       const byStarCount =
-        Object.entries(moments)
+        Object.keys(moments)
+          .map(key => [key, moments[key]])
           .sort((a, b) => a[1].starCount - b[1].starCount)
           .map(entry => entry[0]);
 
       const byStart =
-        Object.entries(moments)
+        Object.keys(moments)
+          .map(key => [key, moments[key]])
           .sort((a, b) => a[1].start - b[1].start)
           .map(entry => entry[0]);
 
