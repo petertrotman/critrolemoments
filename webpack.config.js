@@ -65,6 +65,7 @@ const devConfig = {
 const prodConfig = {
   entry: {
     app: [
+      'babel-polyfill',
       './src/index.js',
     ],
   },
