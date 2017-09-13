@@ -90,8 +90,6 @@ const FiltersContainer = styled.div`
       box-shadow: none;
       transform: translateY(0);
     }
-    }
-
   }
 `;
 

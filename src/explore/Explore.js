@@ -35,11 +35,12 @@ class Explore extends React.Component {
       byId: PropTypes.object,
       order: PropTypes.arrayOf(PropTypes.string),
       isFetching: PropTypes.bool,
+      hasFetched: PropTypes.bool,
     }).isRequired,
   }
 
   componentWillMount() {
-    this.props.requestMoments();
+    if (!this.props.explore.hasFetched) this.props.requestMoments();
   }
 
   render() {
