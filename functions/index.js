@@ -5,15 +5,16 @@ const admin = require('firebase-admin');
 const episodes = require('./episodes.js');
 const moments = require('./moments.js');
 const indexes = require('./indexes.js');
+const util = require('./util.js');
 
 admin.initializeApp(functions.config().firebase);
 
-exports.tenMinutely = functions.pubsub.topic('ten-minutely-tick').onPublish(() => {
+exports.tenminutely = util.cronFunction(() => {
   moments.reconcileStarCounts(admin.database())
     .then(() => indexes.indexMoments(admin.database()));
 });
 
-exports.hourly = functions.pubsub.topic('hourly-tick').onPublish(() => {
+exports.hourly = util.cronFunction(() => {
   episodes.update(admin.database(), functions.config().youtube.key)
     .then(() => indexes.indexEpisodes(admin.database()));
 });
