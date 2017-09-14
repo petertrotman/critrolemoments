@@ -90,6 +90,8 @@ const FiltersContainer = styled.div`
       box-shadow: none;
       transform: translateY(0);
     }
+    }
+
   }
 `;
 
@@ -131,7 +133,7 @@ class Filters extends React.Component {
 
   handleButtonClick(e) {
     e.preventDefault();
-    this.props.requestMoments();
+    this.props.requestMoments({ page: 0 });
   }
 
   episodeNotAfterLast(episodeKey, options = {}) {

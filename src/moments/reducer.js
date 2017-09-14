@@ -1,6 +1,8 @@
 import {
   MOMENTS_REQUEST_MOMENTS,
   MOMENTS_RECEIVE_MOMENTS,
+  MOMENTS_REQUEST_UPDATE,
+  MOMENTS_RECEIVE_UPDATE,
 } from './actions';
 
 const defaultState = {
@@ -42,6 +44,37 @@ export default function reducer(state = defaultState, action) {
         error: null,
         isFetching: false,
         hasFetched: true,
+      };
+    }
+
+    case MOMENTS_REQUEST_UPDATE: {
+      return {
+        ...state,
+        error: null,
+        isFetching: true,
+      };
+    }
+
+    case MOMENTS_RECEIVE_UPDATE: {
+      if (action.error) {
+        return {
+          ...state,
+          error: action.error,
+          isFetching: false,
+        };
+      }
+
+      return {
+        ...state,
+        byId: {
+          ...state.byId,
+          [action.payload.key]: {
+            ...state.byId[action.payload.key],
+            ...action.payload.vals,
+          },
+        },
+        error: null,
+        isFetching: false,
       };
     }
 

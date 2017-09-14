@@ -9,10 +9,13 @@ const util = require('./util.js');
 
 admin.initializeApp(functions.config().firebase);
 
-exports.tenminutely = util.cronFunction(() => {
-  moments.reconcileStarCounts(admin.database())
-    .then(() => indexes.indexMoments(admin.database()));
-});
+exports.tenminutely = util.cronFunction(() =>
+  Promise.all([
+    moments.reconcileStarCounts(admin.database()),
+    moments.reconcileOwners(admin.database()),
+  ])
+    .then(() => indexes.indexMoments(admin.database())) // eslint-disable-line comma-dangle
+);
 
 exports.hourly = util.cronFunction(() => {
   episodes.update(admin.database(), functions.config().youtube.key)
@@ -24,3 +27,6 @@ exports.addStar = functions.database.ref('/users/{uid}/starredMoments/{key}')
 
 exports.removeStar = functions.database.ref('/users/{uid}/starredMoments/{key}')
   .onDelete(event => moments.updateStarCount(admin.database(), event.params.key, -1));
+
+exports.changeOwner = functions.database.ref('/moments/{key}/user')
+  .onUpdate(delta => moments.changeOwner(admin.database(), delta));

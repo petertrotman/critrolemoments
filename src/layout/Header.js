@@ -25,7 +25,7 @@ const StyledHeader = styled.header`
 const StyledTitle = styled.div`
   overflow: hidden;
   white-space: nowrap;
-  max-width: 80%;
+  // max-width: 80%;
   font-family: 'Cinzel Decorative';
   font-weight: 600;
 

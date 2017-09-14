@@ -33,5 +33,32 @@ function reconcileStarCounts(db) {
     .catch(console.error);
 }
 
+function changeOwner(db, delta) {
+  const moment = delta.ref.parent.key;
+  const previousOwner = delta.previous;
+  const currentOwner = delta.current;
+  if (previousOwner) db.ref(`/users/${previousOwner}/ownedMoments/${moment}`).set(false);
+  if (currentOwner) db.ref(`/users/${currentOwner}/ownedMoments/${moment}`).set(true);
+}
+
+function reconcileOwners(db) {
+  return db.ref('/moments').once('value')
+    .then(snapshot => snapshot.val())
+    .then(momentObjects => Object.keys(momentObjects).map(key => [key, momentObjects[key]]))
+    .then(entries => entries.reduce((acc, [key, moment]) => {
+      if (!moment.user) return acc;
+      if (!acc[moment.user]) acc[moment.user] = {};
+      acc[moment.user][key] = true;
+      return acc;
+    }, {}))
+    .then((momentsByOwner) => {
+      db.ref('/users').once('value').then(ss =>
+        ss.forEach(child => child.ref.update({ ownedMoments: momentsByOwner[child.key] || {} })));
+    });
+}
+
+
 exports.updateStarCount = updateStarCount;
 exports.reconcileStarCounts = reconcileStarCounts;
+exports.changeOwner = changeOwner;
+exports.reconcileOwners = reconcileOwners;

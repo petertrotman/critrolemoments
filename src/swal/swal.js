@@ -99,6 +99,7 @@ export function reportSwal(moment) {
             moment: moment.key,
             reason: result[0],
             details: result[1],
+            timestamp: Date.now(),
           })
           .then(() => resolve())
           .catch(err => reject(err));
@@ -113,6 +114,42 @@ export function reportSwal(moment) {
       });
     })
     .catch(() => swal.resetDefaults());
+}
+
+export function editSwal(push, updateMoment, moment, user) {
+  const claimSwal = () => swal({
+    title: 'Claim this Moment',
+    type: 'info',
+    text: 'This moment doesn\'t have an owner! Would you like to claim it as your own?\n\nBy doing so, you are accepting responsibility for keeping the moment accurate and fully detailed. If you don\'t wish to do this, then you can just make your own copy of it on the next page.',
+    showCancelButton: true,
+    confirmButtonText: 'Claim Moment!',
+    cancelButtonText: 'Copy Moment',
+    preConfirm: () => updateMoment(moment.key, { user }),
+  })
+    .then(() => push(`/moments/${moment.key}/edit`));
+
+  const copySwal = () => swal({
+    title: 'Create a Copy',
+    type: 'info',
+    text: 'Because you are not the owner of this moment, you cannot directly edit it. However, you may make a copy of it and edit that as you see fit.',
+    showCancelButton: true,
+    confirmButtonText: 'Create a Copy',
+  })
+    .then(() => push({ pathname: '/create', search: `?from=${moment.key}` }));
+
+  if (!moment.user) {
+    claimSwal()
+      .catch((dismiss) => {
+        if (dismiss === 'cancel') {
+          copySwal();
+        } else {
+          swal.noop();
+        }
+      });
+  } else {
+    copySwal()
+      .catch(swal.noop);
+  }
 }
 
 export function shareSwal(url) {

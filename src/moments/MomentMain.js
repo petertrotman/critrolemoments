@@ -7,12 +7,13 @@ import { withRouter } from 'react-router';
 import { push as pushAction } from 'react-router-redux';
 
 import Share2Svg from 'feather-icons/dist/icons/share-2.svg';
-import CopySvg from 'feather-icons/dist/icons/copy.svg';
+import EditSvg from 'feather-icons/dist/icons/edit-3.svg';
 import AlertCircleSvg from 'feather-icons/dist/icons/alert-circle.svg';
 
 import Player from '../player/Player';
 
-import { signInSwal, reportSwal, shareSwal } from '../swal/swal';
+import { updateMoment as updateMomentAction } from './actions';
+import { signInSwal, reportSwal, editSwal, shareSwal } from '../swal/swal';
 import { momentType } from '../utils/types';
 import { timestampToSeconds } from '../utils/text';
 
@@ -54,7 +55,13 @@ class MomentMain extends React.Component {
     moment: momentType.isRequired,
     loggedIn: PropTypes.bool.isRequired,
     push: PropTypes.func.isRequired,
+    updateMoment: PropTypes.func.isRequired,
     location: PropTypes.shape({}).isRequired,
+    user: PropTypes.string,
+  }
+
+  static defaultProps = {
+    user: null,
   }
 
   get opts() {
@@ -78,16 +85,14 @@ class MomentMain extends React.Component {
     }
   }
 
-  copyClickHandler(e) {
+  editClickHandler(e) {
     e.preventDefault();
     if (!this.props.loggedIn) {
       signInSwal(this.props.push, this.props.location);
+    } else if (this.props.moment.user !== this.props.user) {
+      editSwal(this.props.push, this.props.updateMoment, this.props.moment, this.props.user);
     } else {
-      this.props.push({
-        pathname: '/create',
-        search: `from=${this.props.moment.key}`,
-        state: { moment: this.props.moment },
-      });
+      this.props.push(`/moments/${this.props.moment.key}/edit`);
     }
   }
 
@@ -108,8 +113,8 @@ class MomentMain extends React.Component {
           <Button onClick={e => this.reportClickHandler(e)}>
             <AlertCircleSvg /><span>Report</span>
           </Button>
-          <Button onClick={e => this.copyClickHandler(e)}>
-            <CopySvg /><span>Create a copy</span>
+          <Button onClick={e => this.editClickHandler(e)}>
+            <EditSvg /><span>Edit</span>
           </Button>
           <Button onClick={e => this.shareClickHandler(e)}>
             <Share2Svg /><span>Share</span>
@@ -122,8 +127,14 @@ class MomentMain extends React.Component {
 
 export default compose(
   connect(
-    store => ({ loggedIn: store.auth.user != null }),
-    dispatch => ({ push: path => dispatch(pushAction(path)) }),
+    store => ({
+      loggedIn: store.auth.user != null,
+      user: store.auth.user && store.auth.user.uid,
+    }),
+    dispatch => ({
+      push: path => dispatch(pushAction(path)),
+      updateMoment: (key, vals) => dispatch(updateMomentAction(key, vals)),
+    }),
   ),
   withRouter,
 )(MomentMain);

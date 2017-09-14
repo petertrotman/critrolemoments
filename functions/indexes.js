@@ -49,8 +49,16 @@ function indexMoments(db) {
             orderedEpisodes.indexOf(a[1].episode) - orderedEpisodes.indexOf(b[1].episode))
           .map(entry => entry[0]);
 
+        const byUser = [].concat(momentsEntries)
+          .reduce((acc, [key, moment]) => {
+            const user = moment.user || '__unknown__';
+            if (!acc[user]) acc[user] = {};
+            acc[user][key] = true;
+            return acc;
+          }, {});
+
         return db.ref('/indexes/moments')
-          .set({ byEpisode, byTimestamp, byStarCount, byStart });
+          .set({ byEpisode, byUser, byTimestamp, byStarCount, byStart });
       })
     );
 }
