@@ -29,4 +29,4 @@ exports.removeStar = functions.database.ref('/users/{uid}/starredMoments/{key}')
   .onDelete(event => moments.updateStarCount(admin.database(), event.params.key, -1));
 
 exports.changeOwner = functions.database.ref('/moments/{key}/user')
-  .onUpdate(delta => moments.changeOwner(admin.database(), delta));
+  .onUpdate(event => moments.changeOwner(admin.database(), event));

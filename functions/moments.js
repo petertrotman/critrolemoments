@@ -33,11 +33,11 @@ function reconcileStarCounts(db) {
     .catch(console.error);
 }
 
-function changeOwner(db, delta) {
-  const moment = delta.ref.parent.key;
-  const previousOwner = delta.previous;
-  const currentOwner = delta.current;
-  if (previousOwner) db.ref(`/users/${previousOwner}/ownedMoments/${moment}`).set(false);
+function changeOwner(db, event) {
+  const moment = event.data.ref.parent.key;
+  const previousOwner = event.data.previous.val();
+  const currentOwner = event.data.current.val();
+  if (previousOwner) db.ref(`/users/${previousOwner}/ownedMoments/${moment}`).set(null);
   if (currentOwner) db.ref(`/users/${currentOwner}/ownedMoments/${moment}`).set(true);
 }
 
