@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import Moment from './Moment';
 import { momentType } from '../utils/types';
 
-const MomentListDiv = styled.div`
+const ListViewDiv = styled.div`
   width: 100%;
 
   ul {
@@ -20,17 +20,17 @@ const MomentListDiv = styled.div`
   }
 `;
 
-const MomentList = ({ moments }) => (
-  <MomentListDiv>
+const ListView = ({ moments }) => (
+  <ListViewDiv>
     <ul>
       { moments.map(moment =>
         <Moment key={moment.key} moment={moment} />) }
     </ul>
-  </MomentListDiv>
+  </ListViewDiv>
 );
 
-MomentList.propTypes = {
+ListView.propTypes = {
   moments: PropTypes.arrayOf(momentType).isRequired,
 };
 
-export default MomentList;
+export default ListView;

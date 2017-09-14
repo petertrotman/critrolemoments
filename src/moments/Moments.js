@@ -2,9 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
+import { Switch, Route } from 'react-router';
 import { Link } from 'react-router-dom';
 
-import MomentList from './MomentList';
+import ListView from './ListView';
+import SingleView from './SingleView';
 import Loading from '../loading/Loading';
 
 import { requestMoments as requestMomentsAction } from './actions';
@@ -36,6 +38,7 @@ class Moments extends React.Component {
     requestMoments: PropTypes.func.isRequired,
     starredMoments: PropTypes.shape({}).isRequired,
     ownedMoments: PropTypes.shape({}).isRequired,
+    match: PropTypes.shape({ path: PropTypes.string }).isRequired,
   }
 
   componentWillMount() {
@@ -65,7 +68,7 @@ class Moments extends React.Component {
         );
       }
 
-      return <MomentList moments={starredMoments} />;
+      return <ListView moments={starredMoments} />;
     };
 
     const OwnedMoments = () => {
@@ -90,17 +93,22 @@ class Moments extends React.Component {
         );
       }
 
-      return <MomentList moments={ownedMoments} />;
+      return <ListView moments={ownedMoments} />;
     };
 
     return (
-      <Container>
-        <h1>My Moments</h1>
-        <h2>Saved Moments</h2>
-        <StarredMoments />
-        <h2>Submitted Moments</h2>
-        <OwnedMoments />
-      </Container>
+      <Switch>
+        <Route exact path={`${this.props.match.path}/`}>
+          <Container>
+            <h1>My Moments</h1>
+            <h2>Saved Moments</h2>
+            <StarredMoments />
+            <h2>Submitted Moments</h2>
+            <OwnedMoments />
+          </Container>
+        </Route>
+        <Route path={`${this.props.match.path}/:key`} component={SingleView} />
+      </Switch>
     );
   }
 }

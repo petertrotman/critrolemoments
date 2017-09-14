@@ -4,6 +4,8 @@ export const MOMENTS_REQUEST_MOMENTS = 'MOMENTS_REQUEST_MOMENTS';
 export const MOMENTS_RECEIVE_MOMENTS = 'MOMENTS_RECEIVE_MOMENTS';
 export const MOMENTS_REQUEST_UPDATE = 'MOMENTS_REQUEST_UPDATE';
 export const MOMENTS_RECEIVE_UPDATE = 'MOMENTS_RECEIVE_UPDATE';
+export const MOMENTS_REQUEST_SINGLE = 'MOMENTS_REQUEST_SINGLE';
+export const MOMENTS_RECEIVE_SINGLE = 'MOMENTS_RECEIVE_SINGLE';
 
 export function receiveMoments(data, error) {
   return {
@@ -67,6 +69,32 @@ export function updateMoment(key, vals) {
       .catch(error => dispatch({
         type: MOMENTS_RECEIVE_UPDATE,
         payload: { key, vals },
+        error,
+      }));
+  };
+}
+
+export function requestSingle(key) {
+  return (dispatch) => {
+    dispatch({
+      type: MOMENTS_REQUEST_SINGLE,
+      payload: { key },
+    });
+
+    return firebase
+      .app()
+      .database()
+      .ref(`/moments/${key}`)
+      .once('value')
+      .then(snapshot => snapshot.val())
+      .then(moment => ({ ...moment, key }))
+      .then(moment => dispatch({
+        type: MOMENTS_RECEIVE_SINGLE,
+        payload: { key, moment },
+      }))
+      .catch(error => dispatch({
+        type: MOMENTS_RECEIVE_SINGLE,
+        payload: { key },
         error,
       }));
   };

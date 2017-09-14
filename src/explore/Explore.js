@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import Filters from './Filters';
 import Pager from './Pager';
-import MomentList from '../moments/MomentList';
+import ListView from '../moments/ListView';
 import Loading from '../loading/Loading';
 
 import { requestMoments as requestMomentsAction } from './actions';
@@ -35,12 +35,11 @@ class Explore extends React.Component {
       byId: PropTypes.object,
       order: PropTypes.arrayOf(PropTypes.string),
       isFetching: PropTypes.bool,
-      hasFetched: PropTypes.bool,
     }).isRequired,
   }
 
   componentWillMount() {
-    if (!this.props.explore.hasFetched) this.props.requestMoments();
+    this.props.requestMoments();
   }
 
   render() {
@@ -61,7 +60,7 @@ class Explore extends React.Component {
     return (
       <Container>
         <Filters />
-        <MomentList moments={moments} />
+        <ListView moments={moments} />
         <Pager data={this.props.explore} requestMoments={this.props.requestMoments} />
       </Container>
     );
