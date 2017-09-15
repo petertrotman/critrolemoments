@@ -70,5 +70,12 @@ function indexEpisodes(db) {
     .then(orderedEpisodes => db.ref('/indexes/episodes/byPosition').set(orderedEpisodes));
 }
 
+function removeMoment(db, key) {
+  const ref = db.ref('/indexes/moments');
+  const indexes = ['byEpisode', 'byStarCount', 'byStart', 'byTimestamp', 'byUser'];
+  return Promise.all(indexes.map(ix => ref.child(ix).child(key).set(null)));
+}
+
 exports.indexMoments = indexMoments;
 exports.indexEpisodes = indexEpisodes;
+exports.removeMoment = removeMoment;
