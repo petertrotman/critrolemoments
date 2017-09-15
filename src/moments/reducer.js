@@ -5,6 +5,8 @@ import {
   MOMENTS_RECEIVE_UPDATE,
   MOMENTS_REQUEST_SINGLE,
   MOMENTS_RECEIVE_SINGLE,
+  MOMENTS_REQUEST_CREATE,
+  MOMENTS_RECEIVE_CREATE,
 } from './actions';
 
 const defaultState = {
@@ -64,7 +66,7 @@ export default function reducer(state = defaultState, action) {
     }
 
     case MOMENTS_RECEIVE_UPDATE: {
-      if (action.error) {
+      if (action.error || !state.byId[action.payload.key]) {
         return {
           ...state,
           error: action.error,
@@ -74,14 +76,41 @@ export default function reducer(state = defaultState, action) {
 
       return {
         ...state,
-        byId: {
-          ...state.byId,
-          [action.payload.key]: {
-            ...state.byId[action.payload.key],
-            ...action.payload.vals,
+        byId: !state.byId[action.payload.key]
+          ? state.byId
+          : {
+            ...state.byId,
+            [action.payload.key]: {
+              ...state.byId[action.payload.key],
+              ...action.payload.moment,
+            },
           },
-        },
+        single: state.single.key !== action.payload.key
+          ? state.single
+          : {
+            ...state.single,
+            moment: {
+              ...state.single.moment,
+              ...action.payload.moment,
+            },
+          },
         error: null,
+        isFetching: false,
+      };
+    }
+
+    case MOMENTS_REQUEST_CREATE: {
+      return {
+        ...state,
+        error: null,
+        isFetching: true,
+      };
+    }
+
+    case MOMENTS_RECEIVE_CREATE: {
+      return {
+        ...state,
+        error: action.error,
         isFetching: false,
       };
     }

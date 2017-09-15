@@ -6,6 +6,10 @@ import {
   USER_REQUEST_STAR,
   USER_RECEIVE_STAR,
 } from './actions';
+import {
+  MOMENTS_RECEIVE_UPDATE,
+  MOMENTS_RECEIVE_CREATE,
+} from '../moments/actions';
 
 import { AUTH_USER_LOGOUT } from '../auth/actions';
 
@@ -83,6 +87,34 @@ export default function reducer(state = defaultState, action) {
         isFetching: { $set: false },
         error: { $set: null },
       });
+    }
+
+    case MOMENTS_RECEIVE_UPDATE: {
+      if (action.error) return state;
+
+      if ((action.payload.key in state.data.ownedMoments) && !action.payload.moment.user) {
+        // We used to own it, but now it has no owner
+        return update(state, { data: {
+          ownedMoments: { $unset: [action.payload.key] },
+        } });
+      }
+
+      if (!(action.payload.key in state.data.ownedMoments) && action.payload.moment.user) {
+        // We can only update moments that we own, we didn't used to own it so now we must
+        return update(state, { data: { ownedMoments: {
+          [action.payload.key]: { $set: true },
+        } } });
+      }
+
+      return state;
+    }
+
+    case MOMENTS_RECEIVE_CREATE: {
+      if (action.error) return state;
+      // We can only create moments owned by us, so it must be owned by us...
+      return update(state, { data: { ownedMoments: {
+        [action.payload.key]: { $set: true },
+      } } });
     }
 
     case AUTH_USER_LOGOUT:

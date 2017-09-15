@@ -5,9 +5,7 @@ import {
   EXPLORE_RECEIVE_MOMENTS,
   EXPLORE_UPDATE_OPTIONS,
 } from './actions';
-import {
-  MOMENTS_RECEIVE_UPDATE,
-} from '../moments/actions';
+import { MOMENTS_RECEIVE_UPDATE } from '../moments/actions';
 import { USER_RECEIVE_STAR } from '../user/actions';
 
 const defaultState = {
@@ -98,19 +96,22 @@ export default function reducer(state = defaultState, action) {
     }
 
     case MOMENTS_RECEIVE_UPDATE: {
-      const moment = state.byId[action.payload.key];
-      if (!moment) return state;
+      if (action.error || !state.byId[action.payload.key]) {
+        return state;
+      }
+
       return {
         ...state,
         byId: {
           ...state.byId,
           [action.payload.key]: {
-            ...moment,
-            ...action.payload.vals,
+            ...state.byId[action.payload.key],
+            ...action.payload.moment,
           },
         },
       };
     }
+
 
     default:
       return state;

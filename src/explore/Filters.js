@@ -9,6 +9,7 @@ import Select from 'react-select';
 
 import { updateOptions as updateOptionsAction, requestMoments as requestMomentsAction } from './actions';
 import { mobileView } from '../layout/util';
+import { buttonHover } from '../utils/styles';
 
 /* eslint-disable no-unused-expressions */
 injectGlobal`
@@ -74,24 +75,7 @@ const FiltersContainer = styled.div`
     cursor: pointer;
     color: #fff;
 
-    box-shadow: 0px 4px 8px #AAA;
-    transform: translateY(-2px);
-    @media (hover) {
-      box-shadow: none;
-      transform: none;
-    }
-
-    :hover {
-      box-shadow: 0px 4px 8px #AAA;
-      transform: translateY(-2px);
-    }
-
-    :active {
-      box-shadow: none;
-      transform: translateY(0);
-    }
-    }
-
+    ${buttonHover}
   }
 `;
 
@@ -133,7 +117,7 @@ class Filters extends React.Component {
 
   handleButtonClick(e) {
     e.preventDefault();
-    this.props.requestMoments({ page: 0 });
+    this.props.requestMoments();
   }
 
   episodeNotAfterLast(episodeKey, options = {}) {

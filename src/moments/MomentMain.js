@@ -24,6 +24,11 @@ const Container = styled.div`
   margin-top: 0.5em;
 `;
 
+const DescriptionContainer = styled.div`
+  white-space: pre-wrap;
+  padding: 0.5em;
+`;
+
 const Buttons = styled.div`
   width: 100%;
   display: flex;
@@ -109,6 +114,9 @@ class MomentMain extends React.Component {
           videoId={this.props.moment.episode}
           opts={this.opts}
         />
+        <DescriptionContainer>
+          { this.props.moment.description }
+        </DescriptionContainer>
         <Buttons>
           <Button onClick={e => this.reportClickHandler(e)}>
             <AlertCircleSvg /><span>Report</span>

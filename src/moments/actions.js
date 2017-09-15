@@ -6,6 +6,8 @@ export const MOMENTS_REQUEST_UPDATE = 'MOMENTS_REQUEST_UPDATE';
 export const MOMENTS_RECEIVE_UPDATE = 'MOMENTS_RECEIVE_UPDATE';
 export const MOMENTS_REQUEST_SINGLE = 'MOMENTS_REQUEST_SINGLE';
 export const MOMENTS_RECEIVE_SINGLE = 'MOMENTS_RECEIVE_SINGLE';
+export const MOMENTS_REQUEST_CREATE = 'MOMENTS_REQUEST_CREATE';
+export const MOMENTS_RECEIVE_CREATE = 'MOMENTS_RECEIVE_CREATE';
 
 export function receiveMoments(data, error) {
   return {
@@ -52,34 +54,77 @@ export function requestMoments() {
 
 export function updateMoment(key, vals) {
   return (dispatch) => {
+    const { key: discard, ...moment } = vals;
+
     dispatch({
       type: MOMENTS_REQUEST_UPDATE,
-      payload: { key, vals },
+      payload: { key, moment },
     });
 
     return firebase
       .app()
       .database()
       .ref(`/moments/${key}`)
-      .update(vals)
+      .update(moment)
       .then(() => dispatch({
         type: MOMENTS_RECEIVE_UPDATE,
-        payload: { key, vals },
+        payload: { key, moment },
       }))
       .catch(error => dispatch({
         type: MOMENTS_RECEIVE_UPDATE,
-        payload: { key, vals },
+        payload: { key, moment },
         error,
       }));
   };
 }
 
-export function requestSingle(key) {
+export function createMoment(moment) {
   return (dispatch) => {
+    dispatch({
+      type: MOMENTS_REQUEST_CREATE,
+      payload: { moment },
+    });
+
+    return firebase
+      .app()
+      .database()
+      .ref('/moments')
+      .push(moment)
+      .then((ref) => {
+        const key = ref.key;
+
+        dispatch({
+          type: MOMENTS_RECEIVE_CREATE,
+          payload: { moment, key },
+        });
+
+        return key;
+      })
+      .catch(error => dispatch({
+        type: MOMENTS_RECEIVE_CREATE,
+        payload: { moment },
+        error,
+      }));
+  };
+}
+
+export function receiveSingle(key, moment, error) {
+  return {
+    type: MOMENTS_RECEIVE_SINGLE,
+    payload: { key, moment },
+    error,
+  };
+}
+
+export function requestSingle(key) {
+  return (dispatch, getState) => {
     dispatch({
       type: MOMENTS_REQUEST_SINGLE,
       payload: { key },
     });
+
+    const savedMoment = getState().moments.byId[key] || getState().explore.byId[key];
+    if (savedMoment) return dispatch(receiveSingle(key, savedMoment));
 
     return firebase
       .app()
@@ -88,14 +133,7 @@ export function requestSingle(key) {
       .once('value')
       .then(snapshot => snapshot.val())
       .then(moment => ({ ...moment, key }))
-      .then(moment => dispatch({
-        type: MOMENTS_RECEIVE_SINGLE,
-        payload: { key, moment },
-      }))
-      .catch(error => dispatch({
-        type: MOMENTS_RECEIVE_SINGLE,
-        payload: { key },
-        error,
-      }));
+      .then(moment => dispatch(receiveSingle(key, moment)))
+      .catch(error => dispatch(receiveSingle(key, null, error)));
   };
 }

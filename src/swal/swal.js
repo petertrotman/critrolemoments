@@ -30,7 +30,7 @@ injectGlobal`
 
 
 export function signInSwal(push, location) {
-  swal({
+  return swal({
     title: 'Please sign in to do that',
     type: 'warning',
     showCancelButton: true,
@@ -49,7 +49,7 @@ export function signInSwal(push, location) {
 
 export function reportSwal(moment) {
   const user = firebase.app().auth().currentUser;
-  if (!user) return;
+  if (!user) return null;
 
   swal.setDefaults({
     type: 'question',
@@ -62,7 +62,7 @@ export function reportSwal(moment) {
     progressSteps: ['1', '2', '3'],
   });
 
-  swal.queue([
+  return swal.queue([
     {
       text: 'Please select a reason:',
       input: 'radio',
@@ -138,7 +138,7 @@ export function editSwal(push, updateMoment, moment, user) {
     .then(() => push({ pathname: '/create', search: `?from=${moment.key}` }));
 
   if (!moment.user) {
-    claimSwal()
+    return claimSwal()
       .catch((dismiss) => {
         if (dismiss === 'cancel') {
           copySwal();
@@ -146,14 +146,13 @@ export function editSwal(push, updateMoment, moment, user) {
           swal.noop();
         }
       });
-  } else {
-    copySwal()
-      .catch(swal.noop);
   }
+
+  return copySwal().catch(swal.noop);
 }
 
 export function shareSwal(url) {
-  swal({
+  return swal({
     title: 'Share Moment',
     type: 'info',
     text: `Send this url to your friends (click below to copy):\n\n${url}`,
@@ -167,4 +166,21 @@ export function shareSwal(url) {
       type: 'success',
     }))
     .catch(swal.noop);
+}
+
+export function releaseSwal(releaseFn) {
+  return swal({
+    title: 'Are you sure?',
+    type: 'warning',
+    text: 'By releasing this moment, other people will be able to claim it and edit it as their own.\n\nAre you sure you want to do this?',
+    showCancelButton: true,
+    confirmButtonText: 'Release Moment',
+    confirmButtonColor: 'red',
+    preConfirm: () => releaseFn(),
+  })
+    .then(() => swal(
+      'Released!',
+      'The moment has been released',
+      'success',
+    ));
 }
