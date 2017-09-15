@@ -15,9 +15,10 @@ import Player from '../player/Player';
 import {
   updateMoment as updateMomentAction,
   createMoment as createMomentAction,
+  deleteMoment as deleteMomentAction,
 } from './actions';
 
-import { releaseSwal } from '../swal/swal';
+import { releaseSwal, deleteSwal } from '../swal/swal';
 import { desktopView } from '../layout/util';
 import {
   timestampToSeconds,
@@ -74,7 +75,11 @@ const ButtonsContainer = styled.div`
   }
 
   > button.form__button__release {
-    background: linear-gradient(0deg, ${adjustHue(12, '#F00')}, ${adjustHue(0, '#F00')});
+    background: linear-gradient(0deg, ${adjustHue(12, 'red')}, ${adjustHue(0, 'red')});
+  }
+
+  > button.form__button__delete {
+    background: linear-gradient(0deg, ${adjustHue(12, 'crimson')}, ${adjustHue(0, 'crimson')});
   }
 `;
 
@@ -171,7 +176,7 @@ class EditView extends React.Component {
     moment: PropTypes.shape({
       user: PropTypes.string,
       key: PropTypes.string,
-    }).isRequired,
+    }),
     episodes: PropTypes.shape({
       byId: PropTypes.shape({}),
       order: PropTypes.arrayOf(PropTypes.string),
@@ -180,12 +185,21 @@ class EditView extends React.Component {
     push: PropTypes.func.isRequired,
     updateMoment: PropTypes.func.isRequired,
     createMoment: PropTypes.func.isRequired,
+    deleteMoment: PropTypes.func.isRequired,
     isFetching: PropTypes.bool.isRequired,
     user: PropTypes.string,
   }
 
   static defaultProps = {
     user: null,
+    moment: {
+      title: '',
+      description: '',
+      episode: null,
+      start: '00:00:00',
+      end: null,
+      tags: {},
+    },
   }
 
   constructor(props) {
@@ -223,6 +237,11 @@ class EditView extends React.Component {
 
   handleEndChange(val) {
     this.setState({ moment: { ...this.state.moment, end: val && val.format('HH:mm:ss') } });
+  }
+
+  handleDescriptionChange(e) {
+    e.preventDefault();
+    this.setState({ moment: { ...this.state.moment, description: e.target.value } });
   }
 
   handleTagsChange(val) {
@@ -264,6 +283,14 @@ class EditView extends React.Component {
       .catch(() => {});
   }
 
+  handleDeleteClick(e) {
+    e.preventDefault();
+    const deleteFn = () => this.props.deleteMoment(this.props.moment.key);
+    deleteSwal(deleteFn)
+      .then(() => this.props.push('/moments'))
+      .catch(() => {});
+  }
+
   render() {
     if (!this.isReady) {
       return (
@@ -273,7 +300,7 @@ class EditView extends React.Component {
       );
     }
 
-    if (!this.isOwnedMoment && !this.isNewMoment) {
+    if ((!this.isOwnedMoment && !this.isNewMoment) || !this.props.user) {
       return (
         <Container>
           <h2>Forbidden</h2>
@@ -421,13 +448,22 @@ class EditView extends React.Component {
               Cancel
             </button>
             { this.isOwnedMoment && (
-              <button
-                className="form__button__release"
-                onClick={e => this.handleReleaseClick(e)}
-                disabled={this.props.isFetching}
-              >
-                Release Moment
-              </button>
+              <Aux>
+                <button
+                  className="form__button__release"
+                  onClick={e => this.handleReleaseClick(e)}
+                  disabled={this.props.isFetching}
+                >
+                  Release Moment
+                </button>
+                <button
+                  className="form__button__delete"
+                  onClick={e => this.handleDeleteClick(e)}
+                  disabled={this.props.isFetching}
+                >
+                  Delete Moment
+                </button>
+              </Aux>
             ) }
           </ButtonsContainer>
         </form>
@@ -446,5 +482,6 @@ export default connect(
     push: path => dispatch(pushAction(path)),
     updateMoment: (key, vals) => dispatch(updateMomentAction(key, vals)),
     createMoment: moment => dispatch(createMomentAction(moment)),
+    deleteMoment: key => dispatch(deleteMomentAction(key)),
   }),
 )(EditView);

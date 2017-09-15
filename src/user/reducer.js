@@ -9,6 +9,7 @@ import {
 import {
   MOMENTS_RECEIVE_UPDATE,
   MOMENTS_RECEIVE_CREATE,
+  MOMENTS_RECEIVE_DELETE,
 } from '../moments/actions';
 
 import { AUTH_USER_LOGOUT } from '../auth/actions';
@@ -115,6 +116,14 @@ export default function reducer(state = defaultState, action) {
       return update(state, { data: { ownedMoments: {
         [action.payload.key]: { $set: true },
       } } });
+    }
+
+    case MOMENTS_RECEIVE_DELETE: {
+      if (action.error) return state;
+      return update(state, { data: {
+        ownedMoments: { $unset: [action.payload.key] },
+        starredMoments: { $unset: [action.payload.key] },
+      } });
     }
 
     case AUTH_USER_LOGOUT:

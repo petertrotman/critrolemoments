@@ -12,9 +12,9 @@ injectGlobal`
     font-size: inherit;
   }
 
-  button.swal2-confirm {
-    background-color: ${theme.secondary} !important;
-  }
+  // button.swal2-confirm {
+  //   background-color: ${theme.secondary} !important;
+  // }
 
   .swal2-radio {
     display: flex !important;
@@ -176,11 +176,28 @@ export function releaseSwal(releaseFn) {
     showCancelButton: true,
     confirmButtonText: 'Release Moment',
     confirmButtonColor: 'red',
-    preConfirm: () => releaseFn(),
+    preConfirm: releaseFn,
   })
     .then(() => swal(
       'Released!',
-      'The moment has been released',
+      'The moment has been released.',
+      'success',
+    ));
+}
+
+export function deleteSwal(deleteFn) {
+  return swal({
+    title: 'Are you sure?',
+    type: 'warning',
+    text: 'You cannot undo this!',
+    showCancelButton: true,
+    confirmButtonText: 'Delete Moment',
+    confirmButtonColor: 'crimson',
+    preConfirm: deleteFn,
+  })
+    .then(() => swal(
+      'Deleted!',
+      'The moment has been deleted.',
       'success',
     ));
 }

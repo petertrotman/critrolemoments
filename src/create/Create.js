@@ -1,5 +1,6 @@
 import React from 'react';
+import EditView from '../moments/EditView';
 
-const Create = () => <h1>Create</h1>;
+const Create = () => <EditView />;
 
 export default Create;

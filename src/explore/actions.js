@@ -49,6 +49,8 @@ export function requestMoments(opts = {}) {
         // we can re-use the old moments index.
         return explore.fetchedIndex;
       }
+      // Otherwise we need to reset the page to 0
+      options.page = 0;
 
       const indexRef = db.ref('/indexes');
 

@@ -1,3 +1,5 @@
+import update from 'immutability-helper';
+
 import {
   MOMENTS_REQUEST_MOMENTS,
   MOMENTS_RECEIVE_MOMENTS,
@@ -7,6 +9,8 @@ import {
   MOMENTS_RECEIVE_SINGLE,
   MOMENTS_REQUEST_CREATE,
   MOMENTS_RECEIVE_CREATE,
+  MOMENTS_REQUEST_DELETE,
+  MOMENTS_RECEIVE_DELETE,
 } from './actions';
 
 const defaultState = {
@@ -113,6 +117,29 @@ export default function reducer(state = defaultState, action) {
         error: action.error,
         isFetching: false,
       };
+    }
+
+    case MOMENTS_REQUEST_DELETE: {
+      return {
+        ...state,
+        error: null,
+        isFetching: true,
+      };
+    }
+
+    case MOMENTS_RECEIVE_DELETE: {
+      if (action.error) {
+        return {
+          ...state,
+          error: action.error,
+          isFetching: false,
+        };
+      }
+
+      return update(state, {
+        byId: { $unset: [action.payload.key] },
+        order: { $set: state.order.filter(k => k !== action.payload.key) },
+      });
     }
 
     case MOMENTS_REQUEST_SINGLE: {

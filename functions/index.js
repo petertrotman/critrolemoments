@@ -1,3 +1,4 @@
+
 // The Cloud Functions for Firebase SDK to create Cloud Functions and setup triggers.
 const functions = require('firebase-functions');
 // The Firebase Admin SDK to access the Firebase Realtime Database.
@@ -30,3 +31,6 @@ exports.removeStar = functions.database.ref('/users/{uid}/starredMoments/{key}')
 
 exports.changeOwner = functions.database.ref('/moments/{key}/user')
   .onUpdate(event => moments.changeOwner(admin.database(), event));
+
+exports.removeMoment = functions.database.ref('/moments/{key}')
+  .onDelete(event => indexes.removeMoment(admin.database(), event.params.key));

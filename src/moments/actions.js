@@ -8,6 +8,8 @@ export const MOMENTS_REQUEST_SINGLE = 'MOMENTS_REQUEST_SINGLE';
 export const MOMENTS_RECEIVE_SINGLE = 'MOMENTS_RECEIVE_SINGLE';
 export const MOMENTS_REQUEST_CREATE = 'MOMENTS_REQUEST_CREATE';
 export const MOMENTS_RECEIVE_CREATE = 'MOMENTS_RECEIVE_CREATE';
+export const MOMENTS_REQUEST_DELETE = 'MOMENTS_REQUEST_DELETE';
+export const MOMENTS_RECEIVE_DELETE = 'MOMENTS_RECEIVE_DELETE';
 
 export function receiveMoments(data, error) {
   return {
@@ -78,8 +80,17 @@ export function updateMoment(key, vals) {
   };
 }
 
-export function createMoment(moment) {
-  return (dispatch) => {
+export function createMoment(_moment) {
+  return (dispatch, getState) => {
+    const user = firebase.app().auth().currentUser;
+    if (!user) return null;
+
+    const moment = {
+      ..._moment,
+      starCount: 0,
+      user: user.uid,
+    };
+
     dispatch({
       type: MOMENTS_REQUEST_CREATE,
       payload: { moment },
@@ -105,6 +116,43 @@ export function createMoment(moment) {
         payload: { moment },
         error,
       }));
+  };
+}
+
+export function deleteMoment(key) {
+  return (dispatch) => {
+    const user = firebase.app().auth().currentUser;
+    if (!user) return null;
+
+    dispatch({
+      type: MOMENTS_REQUEST_DELETE,
+      payload: { key },
+    });
+
+    const db = firebase.app().database();
+    return db
+      .ref(`/moments/${key}`)
+      .once('value')
+      .then(snapshot => snapshot.val())
+      .then((moment) => {
+        if (moment.user !== user.uid) {
+          return dispatch({
+            type: MOMENTS_RECEIVE_DELETE,
+            payload: { key },
+            error: new Error('Unauthorized'),
+          });
+        }
+        return db
+          .ref(`/deleted/${key}`)
+          .set(moment)
+          .then(() => db
+            .ref(`/moments/${key}`)
+            .set(null))
+          .then(() => dispatch({
+            type: MOMENTS_RECEIVE_DELETE,
+            payload: { key },
+          }));
+      });
   };
 }
 
