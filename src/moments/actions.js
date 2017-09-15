@@ -81,7 +81,7 @@ export function updateMoment(key, vals) {
 }
 
 export function createMoment(_moment) {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     const user = firebase.app().auth().currentUser;
     if (!user) return null;
 
@@ -89,6 +89,7 @@ export function createMoment(_moment) {
       ..._moment,
       starCount: 0,
       user: user.uid,
+      timestamp: Date.now(),
     };
 
     dispatch({

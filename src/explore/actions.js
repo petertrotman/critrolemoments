@@ -1,6 +1,6 @@
 import firebase from 'firebase/app';
 
-import { paginate } from '../utils/data';
+import { paginate, isValidMoment } from '../utils/data';
 
 export const EXPLORE_REQUEST_MOMENTS = 'EXPLORE_REQUEST_MOMENTS';
 export const EXPLORE_RECEIVE_MOMENTS = 'EXPLORE_RECEIVE_MOMENTS';
@@ -87,14 +87,19 @@ export function requestMoments(opts = {}) {
       return momentsByOrder.filter(key => allowedMoments.includes(key));
     })();
 
-    const order = paginate(index, options.page, options.limit);
+    let order = paginate(index, options.page, options.limit);
 
     const momentsRef = db.ref('/moments');
     const moments = await Promise.all(order.map(key =>
       momentsRef.child(key).once('value')));
 
     const byId = moments.reduce((acc, moment) =>
-      ({ ...acc, [moment.key]: { ...moment.val(), key: moment.key } }), {});
+      (moment && isValidMoment(moment.val())
+        ? { ...acc, [moment.key]: { ...moment.val(), key: moment.key } }
+        : acc), {});
+
+    // Remove invalid keys
+    order = order.filter(key => key in byId);
 
     dispatch(receiveMoments({ byId, order, index }));
   };

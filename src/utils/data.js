@@ -16,3 +16,12 @@ export function parseMomentsSnapshot(snapshot) {
 export function paginate(array, page = 0, limit = 20) {
   return array.slice(limit * page, limit * (page + 1));
 }
+
+export function isValidMoment(moment) {
+  return (moment
+    && !!moment.title
+    && !!moment.episode
+    && !!moment.start
+  );
+}
+

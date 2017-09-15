@@ -32,5 +32,13 @@ exports.removeStar = functions.database.ref('/users/{uid}/starredMoments/{key}')
 exports.changeOwner = functions.database.ref('/moments/{key}/user')
   .onUpdate(event => moments.changeOwner(admin.database(), event));
 
-exports.removeMoment = functions.database.ref('/moments/{key}')
-  .onDelete(event => indexes.removeMoment(admin.database(), event.params.key));
+exports.deleteMoment = functions.database.ref('/moments/{key}')
+  .onDelete(event => Promise.all([
+    indexes.removeMoment(admin.database(), event.params.key),
+    moments.changeOwnedMoment(admin.database(), event.data.previous, null),
+  ]));
+
+exports.createMoment = functions.database.ref('/moments/{key}')
+  .onCreate(event =>
+    moments.changeOwnedMoment(admin.database(), event.data.current, true)
+      .then(() => indexes.indexMoments(admin.database())));

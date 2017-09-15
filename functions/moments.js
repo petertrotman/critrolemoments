@@ -41,6 +41,12 @@ function changeOwner(db, event) {
   if (currentOwner) db.ref(`/users/${currentOwner}/ownedMoments/${moment}`).set(true);
 }
 
+function changeOwnedMoment(db, momentSnapshot, set) {
+  const user = momentSnapshot.val().user;
+  if (!user) return null;
+  return db.ref(`/users/${user}/ownedMoments/${momentSnapshot.ref.key}`).set(set);
+}
+
 function reconcileOwners(db) {
   return db.ref('/moments').once('value')
     .then(snapshot => snapshot.val())
@@ -62,3 +68,4 @@ exports.updateStarCount = updateStarCount;
 exports.reconcileStarCounts = reconcileStarCounts;
 exports.changeOwner = changeOwner;
 exports.reconcileOwners = reconcileOwners;
+exports.changeOwnedMoment = changeOwnedMoment;
