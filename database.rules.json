@@ -1,6 +1,42 @@
 {
   "rules": {
-    ".read": "true",
-    ".write": "auth != null"
+    "cron": {
+      ".read": false,
+      ".write": false
+    },
+    "deleted": {
+      ".read": false,
+      ".write": "auth != null"
+    },
+    "episodes": {
+      ".read": true,
+      ".write": false
+    },
+    "feedback": {
+      ".read": false,
+      ".write": "auth != null"
+    },
+    "indexes": {
+      ".read": true,
+      ".write": false
+    },
+    "moments": {
+      ".read": true,
+      ".write": false,
+      "$moment": {
+        ".read": true,
+        ".write": "auth != null && (!data.exists() || data.child('user').val() === auth.uid || data.child('user').val() === '')"
+      }
+    },
+    "reports": {
+      ".read": false,
+      ".write": "auth != null"
+    },
+    "users": {
+      "$uid": {
+        ".read": "auth.uid === $uid",
+        ".write": "auth.uid === $uid"
+      }
+    }
   }
 }
