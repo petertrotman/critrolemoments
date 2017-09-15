@@ -116,6 +116,71 @@ export function reportSwal(moment) {
     .catch(() => swal.resetDefaults());
 }
 
+export function feedbackSwal() {
+  const user = firebase.app().auth().currentUser;
+  if (!user) return null;
+
+  swal.setDefaults({
+    type: 'question',
+    title: 'Send Feedback',
+    showCancelButton: true,
+    confirmButtonText: 'Next &rarr;',
+    animation: false,
+    reverseButtons: true,
+    progressSteps: ['1', '2', '3'],
+  });
+
+  return swal.queue([
+    {
+      text: 'What type of feedback do you have?:',
+      input: 'radio',
+      animation: true,
+      inputOptions: {
+        'Feature Suggestion': 'Feature Suggestion',
+        'Bug Report': 'Bug Report',
+        Other: 'Other',
+      },
+      inputValidator: input => new Promise((resolve, reject) => {
+        if (!input) reject('You must select a feedback type.');
+        resolve();
+      }),
+    },
+    {
+      text: 'Please provide as much detail as you can:',
+      input: 'textarea',
+    },
+  ])
+    .catch(() => swal.resetDefaults())
+    .then(result => swal({
+      text: 'Confirm details and submit',
+      html: `<h3>Type</h3><p>${result[0]}</p><h3>Details</h3><p>${result[1]}</p>`,
+      confirmButtonText: 'Submit',
+      preConfirm: () => new Promise((resolve, reject) => {
+        firebase
+          .app()
+          .database()
+          .ref('/feedback')
+          .push({
+            user: user.uid,
+            type: result[0],
+            details: result[1],
+            timestamp: Date.now(),
+          })
+          .then(() => resolve())
+          .catch(err => reject(err));
+      }),
+    }))
+    .then(() => {
+      swal.resetDefaults();
+      return swal({
+        type: 'success',
+        title: 'Feedback Submitted!',
+        text: 'Thank you for helping to improve CritRoleMoments.',
+      });
+    })
+    .catch(() => swal.resetDefaults());
+}
+
 export function editSwal(push, updateMoment, moment, user) {
   const claimSwal = () => swal({
     title: 'Claim this Moment',

@@ -60,6 +60,8 @@ const ButtonsContainer = styled.div`
     text-align: center;
     border-radius: 4px;
     cursor: pointer;
+    font-family: 'Cinzel Decorative',sans-serif;
+    font-weight: 600;
 
     ${buttonHover}
   }
@@ -207,6 +209,7 @@ class EditView extends React.Component {
     this.state = {
       moment: props.moment,
       isValid: true,
+      error: null,
     };
   }
 
@@ -440,6 +443,8 @@ class EditView extends React.Component {
             </button>
             { !this.state.isValid &&
               <span>Please check the form for errors or missing details.</span> }
+            { this.state.error &&
+              <span>An error occurred :-(.</span> }
             <button
               className="form__button__cancel"
               onClick={e => this.handleCancelClick(e)}

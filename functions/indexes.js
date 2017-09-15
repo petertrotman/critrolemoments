@@ -20,15 +20,6 @@ function indexMoments(db) {
 
         const byEpisode = [].concat(momentsEntries)
           .reduce((acc, [key, moment]) => {
-            // return Object.assign(
-            //   {},
-            //   acc,
-            //   { [moment.episode]: Object.assign(
-            //     {},
-            //     acc[moment.episode],
-            //     { [key]: true },
-            //   ) },
-            // );
             if (!acc[moment.episode]) acc[moment.episode] = {};
             acc[moment.episode][key] = true;
             return acc;

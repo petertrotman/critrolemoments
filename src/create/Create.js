@@ -8,6 +8,7 @@ import queryString from 'query-string';
 
 import EditView from '../moments/EditView';
 import Loading from '../loading/Loading';
+import loginRequired from '../auth/loginRequired';
 
 import { requestSingle as requestSingleAction } from '../moments/actions';
 
@@ -80,6 +81,7 @@ class Create extends React.Component {
 }
 
 export default compose(
+  loginRequired,
   withRouter,
   connect(
     store => ({ data: store.moments.single }),
