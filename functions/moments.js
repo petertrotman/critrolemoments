@@ -24,8 +24,9 @@ function reconcileStarCounts(db) {
       .then(starredMomentsLists => starredMomentsLists
         .reduce((acc, momentsList) => acc.concat(momentsList), []))
       .then(starredMoments => starredMoments
-        .reduce((acc, key) =>
-          Object.assign(acc, { [key]: (acc[key] || 0) + 1 }), initialStarCount))
+        .reduce((acc, key) => (key in initialStarCount // Don't count moments that don't exist
+          ? Object.assign(acc, { [key]: (acc[key] || 0) + 1 })
+          : acc), initialStarCount))
       .then(starCounts => Promise.all(Object.keys(starCounts)
         .map(key => db.ref(`/moments/${key}/starCount`).set(starCounts[key]))
       ))

@@ -1,5 +1,7 @@
 import firebase from 'firebase/app';
 
+import { requestStar } from '../user/actions';
+
 export const MOMENTS_REQUEST_MOMENTS = 'MOMENTS_REQUEST_MOMENTS';
 export const MOMENTS_RECEIVE_MOMENTS = 'MOMENTS_RECEIVE_MOMENTS';
 export const MOMENTS_REQUEST_UPDATE = 'MOMENTS_REQUEST_UPDATE';
@@ -34,22 +36,21 @@ export function requestMoments() {
     });
 
     const ref = firebase.app().database().ref('/moments');
-    const promises = momentKeys
-      .map(key => ref
-        .child(key)
-        .once('value')
-        .then(snapshot => snapshot));
+    const promises = momentKeys.map(key => ref.child(key).once('value'));
+
     Promise.all(promises)
-      .then((snapshots) => {
-        const byId = snapshots.reduce((acc, snapshot) => ({
-          ...acc,
-          [snapshot.key]: { ...snapshot.val(), key: snapshot.key },
-        }), {});
-        const order = Object.entries(byId)
+      .then(snapshots => snapshots.filter(s => s.exists()))
+      .then(snapshots => snapshots.reduce((acc, snapshot) => ({
+        ...acc,
+        [snapshot.key]: { ...snapshot.val(), key: snapshot.key },
+      }), {}))
+      .then(byId => ({
+        byId,
+        order: Object.entries(byId)
           .sort((a, b) => a[1].timestamp - b[1].timestamp)
-          .map(entry => entry[0]);
-        dispatch(receiveMoments({ byId, order }));
-      })
+          .map(entry => entry[0]) // eslint-disable-line comma-dangle
+      }))
+      .then(({ byId, order }) => dispatch(receiveMoments({ byId, order })))
       .catch(err => dispatch(receiveMoments(null, err)));
   };
 }
@@ -109,6 +110,8 @@ export function createMoment(_moment) {
           type: MOMENTS_RECEIVE_CREATE,
           payload: { moment, key },
         });
+
+        dispatch(requestStar(key));
 
         return key;
       })

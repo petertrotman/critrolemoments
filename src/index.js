@@ -24,7 +24,9 @@ const history = createHistory();
 
 let middlewares = [routerMiddleware(history), thunk];
 if (process.env.NODE_ENV !== 'production') {
-  middlewares = middlewares.concat(logger);
+  middlewares = middlewares.concat([
+    logger,
+  ]);
 }
 const middleware = applyMiddleware(...middlewares);
 const store = createStore(reducers, middleware);

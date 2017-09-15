@@ -139,6 +139,7 @@ export default function reducer(state = defaultState, action) {
       return update(state, {
         byId: { $unset: [action.payload.key] },
         order: { $set: state.order.filter(k => k !== action.payload.key) },
+        isFetching: { $set: false },
       });
     }
 

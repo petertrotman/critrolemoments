@@ -161,6 +161,11 @@ class Moment extends React.Component {
     return this.props.user.starringMoments.includes(this.props.moment.key);
   }
 
+  get starCount() {
+    if (this.starred) return Math.max(this.props.moment.starCount, 1);
+    return this.props.moment.starCount;
+  }
+
   heartClickHandler(e) {
     e.preventDefault();
 
@@ -184,7 +189,7 @@ class Moment extends React.Component {
         <Top>
           <Heart starred={this.starred} starring={this.starring} clicked={this.state.heartClicked}>
             <HeartSvg onClick={(e) => { this.heartClickHandler(e); }} role="button" />
-            <span>{ this.props.moment.starCount }</span>
+            <span>{ this.starCount }</span>
           </Heart>
           <Title
             onClick={(e) => { this.titleClickHandler(e); }}
